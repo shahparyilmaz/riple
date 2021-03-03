@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<style>
+    .mybtn{
+        background-color: crimson;
+        color: white;
+    }
+    #color{
+        color: crimson;
+    }
+</style>
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-5 mx-auto" style="background-color:  rgb(245, 241, 241); margin-top: 40px;">
+            <div id="first">
+                <div class="myform form ">
+                    <div class="logo mb-3">
+                        <br>
+                        <div class="col-md-12 text-center">
+                            <h1>Login</h1>
+                        </div>
+                        <p style="text-align: center;">
+                            {% for msg in messages %}
+                            {{msg}}
+                            {% endfor %}
+                        </p>
+                    </div>
+                    <form action="" method="POST">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="username">Username</label>
+                            <input type="text" name="username" class="form-control" placeholder="Username">
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <input type="password" name="password" class="form-control" placeholder="Password">
+                        </div>
+                        {{form.errors}}
+                        <br>
+                        <div class="col-md-12 text-center ">
+                            <button type="submit" class=" btn btn-block mybtn tx-tfm">Login</button>
+                        </div>
+                        <br>
+
+                        <div class="form-group">
+                            <p class="text-center">Don't have account? <a href="{% url 'register' %}"
+                                    id="color">Sign up
+                                    here</a>
+                            </p>
+                        </div>
+                        <br>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<!---
+        <label for="{{form.username.id_for_label}}">Username</label>
+        {{form.username|add_class:'form-control'}}
+        <label for="exampleInputEmail1">Password</label>
+        <input type="password" name="password" id="password" class="form-control"
+        aria-describedby="emailHelp" placeholder="Enter Password">
+    
+    <script>
+        var form_fields = document.getElementsByTagName('input')
+        form_fields[1].placeholder = 'Enter Username';
+        form_fields[2].placeholder = 'Enter password';
+
+        for (var field in form_fields) {
+            form_fields[field].className += ' form-control'
+        }
+    </script>
+    --->
+{% endblock %}

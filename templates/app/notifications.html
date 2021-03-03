@@ -1,0 +1,114 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+{% block content %}
+{% load static %}
+
+
+<style>
+
+    .notif-container{
+        display: flex;
+        width: 500px;
+    }
+    .full-width{
+        width: 100%;
+        display: flex;
+    }
+</style>
+
+<link rel="stylesheet" type="text/css" href="{% static 'css/home2.css' %}">
+
+<nav class="navbar navbar-expand-lg nav-color sticky" style="position: sticky;top: 0;z-index: 1;">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">
+            <img class="home-self-img" src="{{user.profile.profile_pic.url}}">
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="material-icons white" style="font-size: 40px;">list</span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="{% url 'home' %}">
+                        Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="{% url 'profile' %}">
+                        Profile</a>
+                </li>
+                <a class="nav-link active" aria-current="page" href="/notifications">
+                    <b>Notifications</b></a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        Requests
+                    </a>
+                    <ul class="dropdown-menu nav-color" aria-labelledby="navbarDropdown">
+                        {% if follow_req_notifications %}
+                        {% for n in follow_req_notifications %}
+                        <li class="dropdown-item" style="background-color: black;">
+                            <a href="/user/{{n.notifier.username}}">{{n.notifier.username}} requested to follow you</a>
+                            <a href="/req_accept/{{n.notifier.id}}?path={{request.path}}"><button
+                                    class="btn btn-light bg-light btn-sm">Accept</button></a>
+                            <a href="/req_delete/{{n.notifier.id}}?path={{request.path}}"><button
+                                    class="btn btn-danger btn-sm">Delete</button></a>
+                        </li>
+                        {% endfor %}
+                        {% else %}
+                        <li><a class="dropdown-item" href="#">No requests</a></li>
+                        {% endif %}
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/logout">Logout</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+                </li>
+            </ul>
+            <form class="d-flex" action="/home_search" method="POST">
+                {% csrf_token %}
+                {% for msg in messages %}
+                <p style="color: white;">{{msg}}</p>
+                {% endfor %}
+                <input class="form-control me-2" type="search" name="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-light bg-light" type="submit">Search</button>
+            </form>
+        </div>
+    </div>
+</nav>
+
+
+<div class="outermost-container">
+<div class="notif-container">
+    <ul class="list-group full-width">
+        {% for i in notifications %}
+        <li class="list-group-item center">
+            <div class="toast-header">
+                <img src="{{i.notifier.profile.profile_pic.url}}" height=50px width=50px
+                    style="object-fit: cover;background-position: center;border-radius: 50%;" alt="...">
+                <div>
+                    <div>
+                    <a href="/user/{{i.notifier.username}}"><strong
+                            class="ml-2">{{i.notifier.username}}</strong></a>
+                            {{i.notification_message}}
+                        </div>
+                        <div>
+                    <small class="text-muted ml-2 mr-2">{{i.display_time}} ,{{i.display_date}}</small>
+                </div>
+                </div>
+            </div>
+            {% if i.post.pic %}
+            <div class="noti-post-img-div">
+                <img class="noti-post-img" src="{{i.post.pic.url}}">
+            </div>
+            {% endif %}
+
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+</div>
+{% endblock %}

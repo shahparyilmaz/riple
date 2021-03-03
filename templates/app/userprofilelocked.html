@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+
+{% block content %}
+<style>
+    .center {
+        text-align: center;
+    }
+    .cover {
+    /*background-image: url(https://images.unsplash.com/photo-1530305408560-82d13781b33a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1352&q=80);*/
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-color: rgb(3, 1, 24);
+    }
+</style>
+<div class="row py-0 px-4">
+    <div class="col-md-7 mx-auto">
+        <!-- Profile widget -->
+        <div class="bg-white shadow rounded overflow-hidden">
+            <div class="px-4 pt-0 pb-4 cover">
+                <div class="media align-items-end profile-head">
+                    <div class="image"><img src="{{user.profile.profile_pic.url}}" alt="..." width="130" id="border"
+                            class="rounded-circle mb-2 mr-0">
+                        <div>
+                            {% if requested %}
+                            <a href="/cancel_req/{{user.id}}?path={{request.path}}" class="btn btn-outline-dark btn-sm">Cancel</a>
+                            {% else %}
+                            <a href="/follow_req/{{user.id}}?path={{request.path}}" class="btn btn-outline-dark btn-sm">Request</a>
+                            {% endif %}
+                            <a href="/follow/{{user.id}}?path={{request.path}}" class="btn btn-outline-dark btn-sm">Follow</a>
+                            <a href="#" class="btn btn-outline-dark btn-sm">Message</a>
+                        </div>
+                    </div>
+                    <div class="media-body mb-5 text-white">
+                        <h3 class="mt-0 mb-0 ml-3">{{user.username.capitalize}}</h4>
+                        <p class="small mb-4"> <i class="fas fa-map-marker-alt mr-2"></i></p>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-light p-4 d-flex justify-content-end text-center">
+                <ul class="list-inline mb-0">
+                    <li class="list-inline-item">
+                        <h5 class="font-weight-bold mb-0 d-block">0</h5><small class="text-muted"> <i
+                                class="fas fa-image mr-1"></i>Photos</small>
+                    </li>
+                    <li class="list-inline-item">
+                        <h5 class="font-weight-bold mb-0 d-block">{{user.profile.followers_count}}</h5><small
+                            class="text-muted"> <i class="fas fa-user mr-1"></i>Followers</small>
+                    </li>
+                    <li class="list-inline-item">
+                        <h5 class="font-weight-bold mb-0 d-block">{{user.profile.following_count}}</h5><small
+                            class="text-muted"> <i class="fas fa-user mr-1"></i>Following</small>
+                    </li>
+                </ul>
+            </div>
+            <div class="px-4 py-3">
+                <h5 class="mb-0">About</h5>
+                <div class="p-4 rounded shadow-sm bg-light">
+                    <p class="font-italic mb-0">Transponster</p>
+                    <p class="font-italic mb-0">Lives in New York</p>
+                </div>
+            </div>
+
+            <div class="container py-2 pl-5 pl-5" style="text-align: center;">
+                <h3 class="center">This account is private</h3>
+                <!--<span class="material-icons" style="font-size: 44px;float: none;">lock</span>-->
+                <ion-icon style="font-size: 50px;" name="lock-closed"></ion-icon>
+            </div>
+            <br>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

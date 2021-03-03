@@ -1,0 +1,335 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+{% block content %}
+<link rel="stylesheet" type="text/css" href="/static/css/home2.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300&display=swap" rel="stylesheet">
+<style>
+
+
+    .header a{
+        text-decoration: none;
+        color: whitesmoke;
+    }
+    .mycontainer {
+        width: 100%;
+        min-height: 500px;
+        display: flex;
+        justify-content: center;
+    }
+
+    .mainbox {
+        width: 90vmin;
+        min-height: 100vmin;
+        position: relative;
+    }
+
+    .header {
+        height: 20vmin;
+        width: 100%;
+        top: 0;
+        background-color: rgb(37, 37, 37);
+        color: whitesmoke;
+        font-family: 'Roboto', sans-serif;
+        border-radius: 3vmin;
+    }
+
+    .header-line {
+        position: relative;
+        display: flex;
+        flex-direction: row;
+        width: fit-content;
+        height: 100%;
+        align-items: center;
+    }
+
+    .dp-container {
+        width: 14vmin;
+        max-width: 4rem;
+        height: 14vmin;
+        max-height: 4rem;
+        margin-left: 3vmin;
+        border-radius: 50%;
+    }
+
+    .dp-container img {
+        border-radius: 50%;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center center;
+    }
+
+    .names {
+        margin-left: 3vmin;
+        height: fit-content;
+    }
+
+    .postdate {
+        position: absolute;
+        right: 5vmin;
+    }
+
+    .img-container {
+        width: 100%;
+    }
+
+    .img-container img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center center;
+        background-position: center center;
+        border-radius: 3vmin;
+    }
+
+    .commentbox {
+        width: 100%;
+        height: fit-content;
+        background-color: rgb(232, 233, 232);
+        justify-content: center;
+        font-family: 'Source Sans Pro', sans-serif;
+        border-radius: 3vmin;
+    }
+
+    .myform {
+        justify-self: center;
+        border-radius: 20vmin;
+        height: 10vmin;
+        max-height: 2.5rem;
+        width: 70%;
+        text-align: center;
+    }
+
+    .mybtn {
+        height: 10vmin;
+        max-height: 2.5rem;
+        width: 20%;
+        font-size: 3vmin;
+        text-align: center;
+        border-radius: 20vmin;
+        background-color: rgb(37, 37, 37);
+        border-width: 0;
+        transition: 0.3s ease;
+    }
+
+    .mybtn:hover {
+        background-color: rgb(37, 37, 37);
+        width: 22%;
+    }
+
+    .likebtn {
+        height: 10vmin;
+        max-height: 2.5rem;
+        width: 20%;
+        border-radius: 20vmin;
+        border-width: 0;
+        background-color: rgb(232, 233, 232);
+        color: crimson;
+        position: relative;
+    }
+
+    #likebtn2 {
+        cursor: initial;
+    }
+
+    #likebtn {
+        cursor: pointer;
+    }
+
+    .line0 {
+        padding: 3vmin;
+        height: fit-content;
+        width: 100%;
+    }
+
+    .caption {
+        margin-left: 3vmin;
+    }
+
+    .line1 {
+        margin-top: 3vmin;
+        height: fit-content;
+        width: 100%;
+        display: flex;
+        justify-content: space-around;
+    }
+
+    .commentbox div p {
+        margin: 0;
+        color: rgb(37, 37, 37);
+    }
+
+    .line2 {
+        margin-top: 3vmin;
+        height: fit-content;
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+    }
+
+    .stats {
+        justify-self: center;
+        width: 70%;
+        text-align: center;
+        text-align: left;
+        padding-left: 3vmin;
+        margin-bottom: 2vmin;
+    }
+
+
+    .comments {
+        width: 100%;
+        height: fit-content;
+    }
+
+    .dark {
+        background-color: rgb(37, 37, 37);
+        color: rgb(232, 233, 232);
+    }
+
+    .light {
+        background-color: rgb(232, 233, 232);
+        color: rgb(37, 37, 37);
+    }
+
+    .comment-line {
+        padding-top: 3vmin;
+        padding-bottom: 3vmin;
+        display: flex;
+        align-items: center;
+        border-radius: 3vmin;
+        background-color: rgb(37, 37, 37);
+        color: rgb(232, 233, 232);
+    }
+
+    .comment-line:nth-child(2n) {
+        background-color: rgb(232, 233, 232);
+        color: rgb(37, 37, 37);
+    }
+    .comment-img-container{
+        height: 10vmin;
+        max-height: 3rem;
+        width: 13vmin;
+        max-width: 3rem;
+        margin-left: 3vmin;
+        border-radius: 50%;
+    }
+    .comment-img-container img{
+        border-radius: 50%;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center center;
+    }
+
+    .usernameandcomment {
+        width: 100%;
+        height: fit-content;
+        margin-left: 3vmin;
+    }
+
+    .comment-user {
+        margin-right: 3vmin;
+        display: flex;
+        justify-content: space-between;
+    }
+</style>
+
+<div class="container">
+    <div class="mycontainer">
+        <div class="mainbox">
+            <div class="header">
+                <div class="header-line">
+                    <div class="dp-container">
+                        <img src="{{poster.profile.profile_pic.url}}" alt="">
+                    </div>
+                    <div class="names">
+                        <a href="/user/{{poster.username}}"><strong>Name</strong></a>
+                        <br>
+                        <a href="/user/{{poster.username}}">{{poster.username}}</a>
+                    </div>
+                    <div class="postdate">{{post.time}}</div>
+                </div>
+            </div>
+            <div class="img-container">
+                <img id="post" src="{{post.pic.url}}" alt="">
+            </div>
+            <div class="commentbox">
+                <div class="line0">
+                    <p class="caption">{{post.caption}}</p>
+                </div>
+                    <form class="line1" id="comment-form" data-url="/add_comment/{{poster.username}}/{{post.id}}" data-username="{{poster.username}}" data-id="{{post.id}}">
+                        {% csrf_token %}
+                        <input id="comment-content" class="form-control myform" type="text" placeholder="Comment here">
+                        <button id="comment-btn" class="btn btn-primary mybtn">Post</button>
+                    </form>
+                <div class="line2">
+                    <div class="stats">
+                        <p>{{no_likes}} like{{no_likes.pluralize}}</p>
+                        <p>{{no_comments}} comment{{no_comments|pluralize}}</p>
+                    </div>
+                    <button id="likebtn2" class="likebtn"><i id="likebtn" class="bi bi-heart-fill likebtn"></i></button>
+                </div>
+                <!--
+                    <div class="card" style="width: 100%;">
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">A comment</li>
+                        </ul>
+                    </div>
+                -->
+            </div>
+                <div id="allComments">
+                    {% if comments %}
+                    {% for comment in comments %}
+                    <div class="comment-line">
+                        <div class="comment-img-container">
+                            <img src="{{comment.user.profile.profile_pic.url}}" alt="">
+                        </div>
+                        <div class="usernameandcomment">
+                            <div class="comment-user">
+                                <strong>{{comment.user.username}}</strong>
+                                <span>time</span>
+                            </div>
+                            <div style="word-break:break-all; margin-right: 3vmin;">{{comment.content}}</div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                    {% endif %}
+                </div>
+            
+        </div>
+    </div>
+</div>
+
+
+
+<script type="text/javascript">
+    var cw = $('.img-container').width();
+    $('.img-container').css({ 'height': cw + 'px' });
+    var header_height = $('.header-line').height()
+    var header_font_size = parseInt(header_height) * 0.18
+    $('.header').css({ 'font-size': header_font_size + 'px' })
+    var form_font_size = parseInt($('.myform').height()) * 0.6
+    $('.mybtn').css({ 'font-size': form_font_size + 'px' })
+    var post_font_size = parseInt($('.mybtn').height()) * 0.6
+    $('.mybtn').css({ 'font-size': post_font_size + 'px' })
+    $('.stats').css({ 'font-size': post_font_size + 'px' })
+    var comment_font = post_font_size
+    $('.comment-line').css({ 'font-size': comment_font + 'px' })
+    var likebtnfont = parseInt($('.line2').height()) * 0.6
+    $('#likebtn').css({ 'font-size': likebtnfont + 'px' })
+    $('.caption').css({ 'font-size': comment_font * 1.1 + 'px' })
+    var comment_img_height = parseInt($('.comment-img-container').height())
+    $('.comment-img-container').css({'width':comment_img_height*1.19+'px'})
+    var comment_img_width = $('.comment-img-container').width()
+</script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script type="text/javascript"> window.CSRF_TOKEN = "{{ csrf_token }}"; </script>
+<script type="text/javascript" src="/static/js/post.js" defer></script>
+{% endblock %}

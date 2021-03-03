@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+
+{% block content %}
+<style>
+    .center {
+        text-align: center;
+    }
+
+    #square {
+        height: 50vw;
+        width: 50vw;
+    }
+
+    #squarediv {
+        width: 300px;
+        height: 300px;
+    }
+
+    img {
+        object-fit: cover;
+    }
+
+</style>
+<div class="row py-0 px-4">
+    <div class="col-md-7 mx-auto">
+        <!-- Profile widget -->
+        <div class="bg-white shadow rounded overflow-hidden">
+            <div class="px-4 pt-0 pb-4 cover">
+                <div class="media align-items-end profile-head">
+                    <div class="image"><img src="{{user.profile.profile_pic.url}}" alt="..." width="130" id="border"
+                            class="rounded-circle mb-2 mr-0">
+                        <div>
+                            <a href="/unfollow/{{user.id}}?path={{request.path}}"
+                                class="btn btn-outline-dark btn-sm">Unfollow</a>
+                            <a href="#" class="btn btn-outline-dark btn-sm">Message</a>
+                        </div>
+                    </div>
+                    <div class="media-body mb-5 text-white">
+                        <h3 class="mt-0 mb-0 ml-3">{{user.username.capitalize}}</h4>
+                            <p class="small mb-4"> <i class="fas fa-map-marker-alt mr-2"></i></p>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-light p-4 d-flex justify-content-end text-center">
+                <ul class="list-inline mb-0">
+                    <li class="list-inline-item">
+                        <h5 class="font-weight-bold mb-0 d-block">0</h5><small class="text-muted"> <i
+                                class="fas fa-image mr-1"></i>Photos</small>
+                    </li>
+                    <li class="list-inline-item">
+                        <h5 class="font-weight-bold mb-0 d-block">{{user.profile.followers_count}}</h5><small
+                            class="text-muted"> <i class="fas fa-user mr-1"></i>Followers</small>
+                    </li>
+                    <li class="list-inline-item">
+                        <h5 class="font-weight-bold mb-0 d-block">{{user.profile.following_count}}</h5><small
+                            class="text-muted"> <i class="fas fa-user mr-1"></i>Following</small>
+                    </li>
+                </ul>
+            </div>
+            <div class="px-4 py-3">
+                <h5 class="mb-0">About</h5>
+                <div class="p-4 rounded shadow-sm bg-light">
+                    <p class="font-italic mb-0">Transponster</p>
+                    <p class="font-italic mb-0">Lives in New York</p>
+                </div>
+            </div>
+
+            <div class="py-4 px-4">
+                <div class="d-flex align-items-center justify-content-between mb-3">
+                    <h5 class="mb-0">Recent photos</h5><a href="#" class="btn btn-link text-muted">Show all</a>
+                </div>
+                <div class="row pr-2 pl-2">
+                    {% for u in all_posts %}
+                    <div class="col-lg-6 pl-lg-3 pr-lg-3 mb-3 mt-3">
+                        <a href="{{user.username}}/{{u.id}}">
+                            <img style="height: 100%;width: 100%;" src="{{u.pic.url}}" alt=""
+                                class="img-fluid shadow-sm">
+                        </a>
+                    </div>
+                    {% endfor %}
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+<!--
+                        <div class="col-lg-6 pl-lg-3 pr-lg-3 mb-3 mt-3"><img style="height: 100%;width: 100%;"
+                            src="https://www.pinkvilla.com/files/styles/gallery-section/public/friends_5_times_courteney_cox_aka_monica_and_matthew_perry_aka_chandler_proved_that_love_is_friendship_mainimage.jpg?itok=-lxvWETI"
+                            alt="" class="img-fluid shadow-sm"></div>
+                    <div class="col-lg-6 pl-lg-3 pr-lg-3 mb-3 mt-3"><img
+                            src="https://pyxis.nymag.com/v1/imgs/92f/127/2ea20dc451fed3becbf46c8de3e567c2a7-21-friends.rsquare.w1200.jpg"
+                            alt="" class="img-fluid shadow-sm"></div>
+                    <div class="col-lg-6 pl-lg-3 pr-lg-3 mb-3 mt-3"><img
+                            src="https://pyxis.nymag.com/v1/imgs/7b8/293/c01025df7559d43ad3ef939ec23f02eee8-30-friends-gossip-tk.rsquare.w1200.jpg"
+                            alt="" class="img-fluid shadow-sm"></div>
+-->

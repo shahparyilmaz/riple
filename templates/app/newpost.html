@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+{% block content %}
+    <div class="container" style="margin-top: 40px;">
+        <form method="POST" action="">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="content" class="form-label"><h3><b>What's on your mind?</b></bWhat></h3></label>
+                <textarea class="form-control" id="content" name="content" rows="10"></textarea>
+            </div>
+            <input type="submit" class="btn btn-primary btn-lg" value="Post">
+        </form>
+    </div>
+{% endblock %}

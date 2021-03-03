@@ -1,0 +1,183 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+{% block content %}
+<link rel="stylesheet" type="text/css" href="static/css/home2.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+
+
+
+<!--Profile box-->
+<!--Navbar-->
+
+<nav class="navbar navbar-expand-lg nav-color sticky" style="position: sticky;top: 0;z-index: 1;">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">
+            <img class="home-self-img" src="{{user.profile.profile_pic.url}}">
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="material-icons white" style="font-size: 40px;">list</span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="{% url 'home' %}">
+                        <b>Home</b></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="{% url 'profile' %}">
+                        Profile</a>
+                </li>
+                <a class="nav-link active" aria-current="page" href="/notifications">
+                    Notifications</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        Requests
+                    </a>
+                    <ul class="dropdown-menu nav-color" aria-labelledby="navbarDropdown">
+                        {% if follow_req_notifications %}
+                        {% for n in follow_req_notifications %}
+                        <li class="dropdown-item" style="background-color: black;">
+                            <a href="/user/{{n.notifier.username}}">{{n.notifier.username}} requested to follow you</a>
+                            <a href="/req_accept/{{n.notifier.id}}?path={{request.path}}"><button
+                                    class="btn btn-light bg-light btn-sm">Accept</button></a>
+                            <a href="/req_delete/{{n.notifier.id}}?path={{request.path}}"><button
+                                    class="btn btn-danger btn-sm">Delete</button></a>
+                        </li>
+                        {% endfor %}
+                        {% else %}
+                        <li><a class="dropdown-item" href="#">No requests</a></li>
+                        {% endif %}
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/logout">Logout</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+                </li>
+            </ul>
+            <form class="d-flex" action="/home_search" method="POST">
+                {% csrf_token %}
+                {% for msg in messages %}
+                <p style="color: white;">{{msg}}</p>
+                {% endfor %}
+                <input class="form-control me-2" type="search" name="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-light bg-light" type="submit">Search</button>
+            </form>
+        </div>
+    </div>
+</nav>
+
+<!--Navbar end-->
+
+
+<div class="outermost-container">
+    <div class="feed-container">
+        <div>
+            {% for feed in feed_list %}
+            <div class="feed-box">
+                <div class="feed-box-header">
+                    <div class="post-user-img-div">
+                        <a href="/user/{{feed.post.user.username}}">
+                            <img src="{{feed.post.user.profile.profile_pic.url}}" alt="images/default_user.png"
+                                class="post-user-img">
+                        </a>
+                    </div>
+                    <div class="edit_username">
+                        <div class="username_time">
+                            <div>
+                                <a href="/user/{{feed.post.user.username}}">
+                                    <h4>{{feed.post.user.username}}<h4>
+                                </a>
+                                <h6>{{feed.post.time}}</h6>
+                            </div>
+                        </div>
+
+                        <div class="edit" id="js-id">
+                            <a href="/edit/{{feed.post.id}}">
+                                <i class="bi bi-pencil-fill"></i>
+                                Edit
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="post-div">
+                    <img src="{{feed.post.pic.url}}" alt="" class="post-img">
+                </div>
+                <div class="feed-box-caption">
+                    <h6>{{feed.post.caption}}</h6>
+                </div>
+                <div class="feed-box-footer">
+                    <div class="like_comment">
+                        <div>
+                            <h6><span id="likeCount">{{feed.post.no_likes}}</span> like{{feed.post.no_likes.pluralize}}</h6>
+                            <h6><span id="commentCount">{{feed.post.no_comments}}</span> comment{{feed.post.no_comments.pluralize}}</h6>
+                        </div>
+
+
+                            <div id="likebtn" class="box" data-username="{{feed.post.user.username}}" data-postid="{{feed.post.id}}">
+                                {% if user in feed.post.likes %}
+                                <i id="likeicon" class="bi bi-heart-fill"></i>
+                                {% else %}
+                                <i id="likeicon" class="bi bi-heart"></i>
+                                {% endif %}
+                            </div>
+                        <!--
+                        <i class="bi bi-heart"></i>
+                        <i class="bi bi-heart-fill unliked"></i>
+                        -->
+                        <a href="/user/{{feed.post.user.username}}/{{feed.post.id}}">
+                            <button class="btn btn-primary but">Comment</button>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    <!--Feed Ends-->
+
+
+
+
+    <div class="notif-container">
+        <ul class="list-group full-width">
+            {% for i in notifications %}
+            <li class="list-group-item center">
+                <div class="toast-header">
+                    <img src="{{i.notifier.profile.profile_pic.url}}" height=50px width=50px
+                        style="object-fit: cover;background-position: center;border-radius: 50%;" alt="...">
+                    <div>
+                        <div>
+                            <a href="/user/{{i.notifier.username}}"><strong
+                                    class="ml-2">{{i.notifier.username}}</strong></a>
+                            {{i.notification_message}}
+                        </div>
+                        <div>
+                            <small class="text-muted ml-2 mr-2">{{i.display_time}} ,{{i.display_date}}</small>
+                        </div>
+                    </div>
+                </div>
+                {% if i.post.pic %}
+                <div class="noti-post-img-div">
+                    <img class="noti-post-img" src="{{i.post.pic.url}}">
+                </div>
+                {% endif %}
+
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript"> window.CSRF_TOKEN = "{{ csrf_token }}"; </script>
+<script type="text/javascript" src="static/js/home.js"></script>
+
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+{% block content %}
+    <div class="container mt-5" style="max-width: 500px;">
+        {% for msg in messages %}
+        {{msg}}
+        {% endfor %}
+    <form method="POST" action="">
+        {% csrf_token %}
+        <input type="text" class="form-control" id="username" name="username" placeholder="Enter username">
+        <input type="submit" class="btn btn-warning" value="Follow">
+    </form>
+    <a href="{% url 'home' %}"><button class="btn btn-danger">Home</button></a>
+    </div>
+{%  endblock %}

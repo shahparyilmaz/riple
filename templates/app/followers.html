@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+{% block content %}
+    <div class="container mt-5" style="max-width: 500px;">
+        {% for msg in messages %}
+        {{msg}}
+        {% endfor %}
+        {% if followers_list %}
+        <ul class="list-group" style="border:1px solid black;">
+            {% for f in followers_list %}
+            <li class="list-group-item" style="background-color: rgb(238, 237, 237);">{{f.username}}</li>
+            {% endfor %}
+        </ul>
+        <br>
+        {% else %}<br>
+        <h4>You have now followers</h4>
+        {% endif %}
+        <a href="{% url 'home' %}"><button class="btn btn-danger">Home</button></a>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" type="text/css" href="/static/css/userpost.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+<style>
+    a{
+        text-decoration: none;
+        color: black;
+    }
+
+</style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="section">
+            <div class="section-pic">
+                <img class="img-post" src="{{post.pic.url}}">
+            </div>
+            <div class="section-right">
+                <div>
+                    <div class="section-right-user">
+                        <img class="img-user" src="{{poster.profile.profile_pic.url}}">
+                        <div>
+                            <h3>{{poster.username}}</h3>
+                            <p>following</p>
+                        </div>
+                    </div>
+                    <div class="section-right-rest">
+                        {% if comments %}
+                        <div>
+                            {% for comment in comments %}
+                            <div class="comment-pack">
+                                <img class="img-commenter" src="{{comment.user.profile.profile_pic.url}}">
+                                <div>
+                                    <a href="/user/{{comment.user.username}}"><h4>{{comment.user.username}}</h4></a>
+                                    <p>{{comment.content}}</p>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        {% else %}
+                        <h3>No comments</h3>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="section-right-most">
+                <div class="comment-box">
+                    <div>
+                        <form action="/add_comment/{{poster.username}}/{{post.id}}" method="POST">
+                            {% csrf_token %}
+                            <textarea cols="25" rows="5" name="content"></textarea>
+                            <div class="d-grid gap-2 col-8 mx-auto mt-2">
+                                <button class="btn btn-primary">Comment</button>
+                            </div>
+                        </form>
+                        <div class="container">
+                            {% if liked %}
+                            <a href="/like_unlike/{{poster.username}}/{{post.id}}">
+                                <div class="box">
+                                    <i class="bi bi-heart-fill liked"></i>
+                                </div>
+                            </a>
+                            {% else %}
+                            <a href="/like_unlike/{{poster.username}}/{{post.id}}">
+                                <div class="box">
+                                    <i class="bi bi-heart"></i>
+                                    <i class="bi bi-heart-fill unliked"></i>
+                                </div>
+                            </a>
+                            {% endif %}
+                        </div>
+                        <div class="like-comment">
+                            <p>{{no_likes}} like{{no_likes.pluralize}}</p>
+                            <p>{{no_comments}} comment{{no_comments|pluralize}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+
+</html>

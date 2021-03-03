@@ -1,0 +1,74 @@
+    <div>
+    Self-Profile
+    
+        <div class="container" style="max-width:400px;">
+            <div class="container d-flex justify-content-center">
+                <div class="card p-3">
+                    <div class="d-flex align-items-center">
+                        {% if user.profile.profile_pic %}
+                        <div class="circular"><img class="circular-image" src={{user.profile.profile_pic.url}}
+                                alt="images/default_user.png.url" width="125px" height="125px"></div>
+                        {% else %}
+                        <div class="circular"> <img src="images/default_user.png" alt="images/default_user.png.url"
+                                class="rounded" width="155"> </div>
+                        {% endif %}
+                        <div class="ml-3">
+                            <h4 class="mb-0 mt-0">{{user.username}}</h4> <span>{{user.profile.age}}
+                                year{{user.profile.age|pluralize}} old</span>
+                            <div class="button bg-primary mt-2 d-flex flex-row align-items-center">
+                                <div class="btn-group" role="group" aria-label="Basic example">
+                                    <a href="{% url 'followers' %}"><button type="button"
+                                            class="btn btn-primary btn-sm">Followers<br>{{user.profile.followers_count}}</b></button></a>
+                                    <a href="{% url 'following' %}"><button type="button"
+                                            class="btn btn-primary btn-sm">Following<br>{{user.profile.following_count}}</b></button></a>
+                                </div>
+                            </div>
+                            <div class="button mt-2 d-flex flex-row align-items-center">
+                                <button class="btn btn-sm btn-outline-primary w-50">Chat</button>
+                                <a href="{% url 'follow' %}"><button
+                                        class="btn btn-sm btn-primary ml-2">Follow</button></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container mt-3 d-flex justify-content-center">
+                <div>
+                    <a href="{% url 'logout' %}"><button type="button" class="btn btn-success">Log Out</button></a>
+                    <a href="{% url 'profile' %}"><button type="button" class="btn btn-warning">Profile</button></a>
+                    <a href="{% url 'newpost' %}"><button type="button" class="btn btn-warning">New Post</button></a>
+                </div>
+            </div>
+        </div>
+        
+    Self-Profile Ends
+
+    Notifications
+    
+        <div class="container mt-5" style="max-width:400px;max-height: auto;">
+            <ul class="list-group" style="border:0 solid black;">
+                {% for i in all_notifications %}
+                <li class="list-group-item center" style="width: 350px;">
+                    <div class="toast-header" style="width: 350px;">
+                        <img src="{{i.notifier.profile.profile_pic.url}}" height=45px width=45px class="circular-image"
+                            alt="...">
+                        <a href="/user/{{i.notifier.username}}"><strong
+                                class="mr-auto">{{i.notifier.username}}</strong></a>
+                        <small class="text-muted">{{i.display_time}} ,{{i.display_date}}</small>
+                        <div class="toast-body" style="max-width:250px">
+                            {{i.notification_message}}
+                        </div>
+                    </div>
+                    <div class="noti-post-img-div">
+                        <img class="noti-post-img" src="{{i.post.pic.url}}">
+                    </div>
+
+                </li>
+                {% endfor %}
+            </ul>
+            <br>
+        </div>
+        
+    Notifications Ends
+    </div>
+    Feed
