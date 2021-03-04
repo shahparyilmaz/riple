@@ -41,7 +41,7 @@
         position: relative;
         display: flex;
         flex-direction: row;
-        width: fit-content;
+        width: 100%;
         height: 100%;
         align-items: center;
     }
@@ -52,7 +52,6 @@
         height: 14vmin;
         max-height: 4rem;
         margin-left: 3vmin;
-        border-radius: 50%;
     }
 
     .dp-container img {
@@ -62,15 +61,20 @@
         object-fit: cover;
         object-position: center center;
     }
-
+    .namesanddates{
+        width: 80%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding-right: 5vmin;
+        padding-left: 3vmin;
+    }
     .names {
-        margin-left: 3vmin;
         height: fit-content;
     }
 
     .postdate {
-        position: absolute;
-        right: 5vmin;
     }
 
     .img-container {
@@ -248,12 +252,19 @@
                     <div class="dp-container">
                         <img src="{{poster.profile.profile_pic.url}}" alt="">
                     </div>
-                    <div class="names">
-                        <a href="/user/{{poster.username}}"><strong>Name</strong></a>
-                        <br>
-                        <a href="/user/{{poster.username}}">{{poster.username}}</a>
+                    <div class="namesanddates">
+                        <div class="names">
+                            <a href="/user/{{poster.username}}"><strong>Name</strong></a>
+                            <br>
+                            <a href="/user/{{poster.username}}">{{poster.username}}</a>
+                        </div>
+                        <div class="postdate" style="float: right;">
+                            {{post.display_time}}
+                            <br>
+                            {{post.display_date}}
+                        </div>
                     </div>
-                    <div class="postdate">{{post.time}}</div>
+
                 </div>
             </div>
             <div class="img-container">
