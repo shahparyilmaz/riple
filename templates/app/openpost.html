@@ -22,7 +22,7 @@
     }
 
     .mainbox {
-        width: 90vmin;
+        width: 100vmin;
         min-height: 100vmin;
         position: relative;
     }
@@ -138,6 +138,7 @@
 
     #likebtn2 {
         cursor: initial;
+        text-align: center;
     }
 
     #likebtn {
@@ -148,10 +149,12 @@
         padding: 3vmin;
         height: fit-content;
         width: 100%;
+        word-break: break-all;
     }
 
     .caption {
-        margin-left: 3vmin;
+        margin-left: 4vmin;
+        margin-right: 4vmin;
     }
 
     .line1 {
@@ -218,7 +221,7 @@
     .comment-img-container{
         height: 10vmin;
         max-height: 3rem;
-        width: 13vmin;
+        width: 10vmin;
         max-width: 3rem;
         margin-left: 3vmin;
         border-radius: 50%;
@@ -232,8 +235,8 @@
     }
 
     .usernameandcomment {
-        width: 100%;
-        height: fit-content;
+        width: 80%;
+        height: 100%;
         margin-left: 3vmin;
     }
 
@@ -241,6 +244,8 @@
         margin-right: 3vmin;
         display: flex;
         justify-content: space-between;
+    }
+    .comment-username{
     }
 </style>
 
@@ -277,14 +282,24 @@
                     <form class="line1" id="comment-form" data-url="/add_comment/{{poster.username}}/{{post.id}}" data-username="{{poster.username}}" data-id="{{post.id}}">
                         {% csrf_token %}
                         <input id="comment-content" class="form-control myform" type="text" placeholder="Comment here">
-                        <button id="comment-btn" class="btn btn-primary mybtn">Post</button>
+                        <button id="comment-btn" class="btn btn-dark mybtn">Post</button>
                     </form>
                 <div class="line2">
                     <div class="stats">
-                        <p>{{no_likes}} like{{no_likes.pluralize}}</p>
-                        <p>{{no_comments}} comment{{no_comments|pluralize}}</p>
+                        <p><span id="likecount">{{no_likes}}</span> like{{no_likes.pluralize}}</p>
+                        <p><span id="commentcount">{{no_comments}}</span> comment{{no_comments|pluralize}}</p>
                     </div>
+                    <!--
                     <button id="likebtn2" class="likebtn"><i id="likebtn" class="bi bi-heart-fill likebtn"></i></button>
+                    -->
+                    <div id="likebtn2" class= "likebtn">
+                        {% if user in post.likes %}
+                        <i id="likebtn" class="bi bi-heart-fill likebtn" data-username="{{post.user.username}}" data-postid="{{post.id}}"></i>
+                        {% else %}
+                        <i id="likebtn" class="bi bi-heart likebtn" data-username="{{post.user.username}}" data-postid="{{post.id}}"></i>
+                        {% endif %}
+                    </div>
+                
                 </div>
                 <!--
                     <div class="card" style="width: 100%;">
@@ -303,10 +318,10 @@
                         </div>
                         <div class="usernameandcomment">
                             <div class="comment-user">
-                                <strong>{{comment.user.username}}</strong>
-                                <span>time</span>
+                                <strong class="comment-username">{{comment.user.username}}</strong>
+                                <span class="comment-date">{{comment.display_time}},{{comment.display_date}}</span>
                             </div>
-                            <div style="word-break:break-all; margin-right: 3vmin;">{{comment.content}}</div>
+                            <div class="comment-content" style="word-break:break-all; margin-right: 3vmin;">{{comment.content}}</div>
                         </div>
                     </div>
                     {% endfor %}
@@ -321,7 +336,7 @@
 
 <script type="text/javascript">
     var cw = $('.img-container').width();
-    $('.img-container').css({ 'height': cw + 'px' });
+    $('.img-container').css({ 'max-height': cw + 'px' });
     var header_height = $('.header-line').height()
     var header_font_size = parseInt(header_height) * 0.18
     $('.header').css({ 'font-size': header_font_size + 'px' })
@@ -331,13 +346,16 @@
     $('.mybtn').css({ 'font-size': post_font_size + 'px' })
     $('.stats').css({ 'font-size': post_font_size + 'px' })
     var comment_font = post_font_size
-    $('.comment-line').css({ 'font-size': comment_font + 'px' })
+    $('.comment-username').css({ 'font-size': comment_font + 'px' })
+    $('.comment-content').css({ 'font-size': comment_font + 'px' })
+    $('.comment-date').css({'font-size':comment_font*0.8+'px'})
     var likebtnfont = parseInt($('.line2').height()) * 0.6
     $('#likebtn').css({ 'font-size': likebtnfont + 'px' })
     $('.caption').css({ 'font-size': comment_font * 1.1 + 'px' })
-    var comment_img_height = parseInt($('.comment-img-container').height())
-    $('.comment-img-container').css({'width':comment_img_height*1.19+'px'})
-    var comment_img_width = $('.comment-img-container').width()
+   
+    //var comment_img_height = parseInt($('.comment-img-container').height())
+    //$('.comment-img-container').css({'width':comment_img_height*1.19+'px'})
+    //var comment_img_width = $('.comment-img-container').width()
 </script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 

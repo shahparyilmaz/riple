@@ -5,18 +5,72 @@
 
 
 <style>
-
-    .notif-container{
+    .notif-container {
         display: flex;
         width: 500px;
     }
-    .full-width{
+
+    .full-width {
         width: 100%;
         display: flex;
     }
+
+    .notibody {
+        width: 100%;
+        height: fit-content;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        margin-left: 0px;
+        margin-right: 0px;
+        padding-left: 0px;
+        padding-right: 0px;
+        transition: 0.1s ease;
+    }
+    .notibody:hover{
+        background-color: rgb(29,29,29);
+        color: #f3f3f3;
+        opacity: 1;
+    }
+    .notibody:hover strong{
+        color: white;
+    }
+
+    .message {
+        word-break: break-all;
+        padding-left: 2vmin;
+        padding-right: 2vmin;
+        font-size: 1rem;
+    }
+
+    .notifier-img-container {
+        width: 50px;
+        height: 50px;
+    }
+
+    .notifier-img {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        object-fit: cover;
+        object-position: center;
+    }
+
+    .post-img-container {
+        width: 50px;
+        height: 50px;
+    }
+
+    .post-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+    }
+
 </style>
 
-<link rel="stylesheet" type="text/css" href="{% static 'css/home2.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'css/notif.css' %}">
 
 <nav class="navbar navbar-expand-lg nav-color sticky" style="position: sticky;top: 0;z-index: 1;">
     <div class="container-fluid">
@@ -82,33 +136,42 @@
 
 
 <div class="outermost-container">
-<div class="notif-container">
-    <ul class="list-group full-width">
-        {% for i in notifications %}
-        <li class="list-group-item center">
-            <div class="toast-header">
-                <img src="{{i.notifier.profile.profile_pic.url}}" height=50px width=50px
-                    style="object-fit: cover;background-position: center;border-radius: 50%;" alt="...">
-                <div>
-                    <div>
-                    <a href="/user/{{i.notifier.username}}"><strong
-                            class="ml-2">{{i.notifier.username}}</strong></a>
-                            {{i.notification_message}}
+    <div class="notif-container">
+        <ul class="list-group full-width">
+            {% for i in notifications %}
+            <li class="list-group-item center li-body">
+                <div class="toast-header notibody">
+                    <div style="display: flex;flex-direction: row;">
+                        <div class="notifier-img-container">
+                            <a href="/user/{{i.notifier.username}}">
+                                <img src="{{i.notifier.profile.profile_pic.url}}" class="notifier-img"
+                                    style="object-fit: cover;background-position: center;border-radius: 50%;" alt="...">
+                            </a>
                         </div>
                         <div>
-                    <small class="text-muted ml-2 mr-2">{{i.display_time}} ,{{i.display_date}}</small>
+                            <div class="message">
+                                <a href="/user/{{i.notifier.username}}">
+                                    <strong>{{i.notifier.username}}</strong>
+                                </a>
+                                <span style="word-break :keep-all;">{{i.notification_message}}</span>
+                            </div>
+                            <div>
+                                <small class="text-muted ml-2 mr-2" style="font-size:0.8rem">{{i.display_time}}
+                                    ,{{i.display_date}}</small>
+                            </div>
+                        </div>
+                    </div>
+                    {% if i.post.pic %}
+                    <div class="post-img-container">
+                        <a href="/user/{{i.notifier.username}}/{{i.post.id}}">
+                            <img class="post-img" src="{{i.post.pic.url}}">
+                        </a>
+                    </div>
+                    {% endif %}
                 </div>
-                </div>
-            </div>
-            {% if i.post.pic %}
-            <div class="noti-post-img-div">
-                <img class="noti-post-img" src="{{i.post.pic.url}}">
-            </div>
-            {% endif %}
-
-        </li>
-        {% endfor %}
-    </ul>
-</div>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
 </div>
 {% endblock %}

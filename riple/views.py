@@ -119,6 +119,8 @@ def add_comment(request,username,id):
         if len(content)!=0:
             comment=Comment(user=user,post=post,content=content)
             comment.save()
+            date = comment.display_date
+            time = comment.display_time
         context={
             'username':username,
             'id':id,
@@ -126,7 +128,7 @@ def add_comment(request,username,id):
             'commenter':request.user,
             'time':comment.time
         }
-        return JsonResponse({'commenter':commenter,'comment':content,'commenter_pic':commenter_profile_url},status=200)
+        return JsonResponse({'commenter':commenter,'comment':content,'commenter_pic':commenter_profile_url,'date':date,'time':time},status=200)
     else:
         print('not post')
         return JsonResponse({'error':'only post method'})

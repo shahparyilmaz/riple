@@ -53,7 +53,7 @@ class Post(models.Model):
         return self.time.strftime("%b %d")
     @property
     def display_time(self):
-        return self.time.strftime("%I %M %p")
+        return self.time.strftime("%I:%M %p")
     @property
     def no_likes(self):
         return Like.objects.filter(post=self).count()
@@ -133,6 +133,15 @@ class Comment(models.Model):
     post = models.ForeignKey(Post,on_delete=models.CASCADE)
     time = models.DateTimeField(auto_now_add=True)
     content = models.CharField(max_length=1000,blank=False,null=False)
+
+
+    @property
+    def display_date(self):
+        return self.time.strftime("%b %d")
+    @property
+    def display_time(self):
+        return self.time.strftime("%I:%M %p")
+    
 
     def comment_added(sender,instance,created,*args, **kwargs):
         if created:

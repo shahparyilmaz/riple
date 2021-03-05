@@ -1,6 +1,13 @@
 
 .but{
-    height: 40px;
+    height: 8vmin;
+    max-height: 2.5rem;
+    width: fit-content;
+    font-size: 3vmin;
+}
+body{
+    margin: 0;
+    padding: 0;
 }
 
 a {
@@ -17,6 +24,7 @@ a:hover {
     width: 100%;
     min-height: 100vh;
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-around;
     padding: 0px 20px;
     background-color:rgb(238, 238, 238);
@@ -66,7 +74,8 @@ a:hover {
 }
 
 .feed-box-header {
-    height: 100px;
+    font-family: 'Roboto', sans-serif;
+    height: 80px;
     width: 100%;
     display: flex;
     align-items: center;
@@ -143,30 +152,29 @@ a:hover {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 30px;
+    height: 8vmin;
     cursor: pointer;
+    font-size: 8vmin;
 }
-
+/*
 .bi-heart-liked{
     color: crimson;
     position: absolute;
-    font-size: 35px;
+    font-size: 8vmin;
     transition: 0.2s cubic-bezier(.42, 0, .99, 1.7);
 }
-
+*/
 .bi-heart {
     color: crimson;
     position: absolute;
-    font-size: 35px;
     transition: 0.2s cubic-bezier(.42, 0, .99, 1.7);
 }
 .bi-heart-fill {
     color: crimson;
     position: absolute;
-    font-size: 35px;
     transition: 0.2s cubic-bezier(.42, 0, .99, 1.7);
 }
-
+/*
 .unliked {
     color: transparent;
 }
@@ -174,14 +182,14 @@ a:hover {
 .liked {
     color: crimson;
 }
-
+*/
 .box:hover .bi-heart-fill {
-    font-size: 40px;
+    font-size: 10vmin;
     color: crimson;
 }
 
 .box:hover .bi-heart {
-    font-size: 40px;
+    font-size: 10vmin;
     color: crimson;
 }
 
@@ -239,3 +247,4 @@ a:hover {
     margin-right: 5px;
     font-size: 20px;
 }
+
