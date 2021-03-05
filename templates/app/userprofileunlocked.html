@@ -21,43 +21,98 @@
         object-fit: cover;
     }
 
+    .dp-container {
+        width: 20vmin;
+        height: 20vmin;
+    }
+
+    .dp {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center center;
+        border-radius: 50%;
+    }
+
+    .buttons {
+        height: fit-content;
+        width: fit-content;
+    }
+
+    .mybtn {
+        width: 20vmin;
+        max-width: 6rem;
+        font-size: 1rem;
+        background-color: #f8f9fa;
+        color: black;
+    }
+
+    .username {
+        font-size: 1.7rem;
+    }
+
+    @media only screen and (max-width: 460px) {
+        .mybtn {
+            font-size: 3.5vmin;
+        }
+
+        .username {
+            font-size: 5vmin;
+        }
+    }
+
+    body {
+        overflow-x: hidden;
+    }
+
+    .header {
+        background-color: rgb(29, 29, 29);
+        color: white;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+    }
 </style>
+
 <div class="row py-0 px-4">
-    <div class="col-md-7 mx-auto">
+    <div class="col-md-7 mx-auto" style="padding: 0px;">
         <!-- Profile widget -->
         <div class="bg-white shadow rounded overflow-hidden">
-            <div class="px-4 pt-0 pb-4 cover">
-                <div class="media align-items-end profile-head">
-                    <div class="image"><img src="{{user.profile.profile_pic.url}}" alt="..." width="130" id="border"
-                            class="rounded-circle mb-2 mr-0">
+            <div class="px-4 pt-4 pb-4 header">
+                <div class="dp-container">
+                    <img class="dp" src="{{user.profile.profile_pic.url}}" alt="..." id="border">
+                </div>
+                <div>
+                    <div class="media-body text-white">
+                        <h3 class="username">{{user.username.capitalize}}</h4>
+                    </div>
+                    <div class="buttons">
                         <div>
                             <a href="/unfollow/{{user.id}}?path={{request.path}}"
-                                class="btn btn-outline-dark btn-sm">Unfollow</a>
-                            <a href="#" class="btn btn-outline-dark btn-sm">Message</a>
+                                class="btn btn-outline-dark mybtn">Unfollow</a>
+                            <a href="#" class="btn btn-outline-dark mybtn">Message</a>
                         </div>
-                    </div>
-                    <div class="media-body mb-5 text-white">
-                        <h3 class="mt-0 mb-0 ml-3">{{user.username.capitalize}}</h4>
-                            <p class="small mb-4"> <i class="fas fa-map-marker-alt mr-2"></i></p>
                     </div>
                 </div>
             </div>
             <div class="bg-light p-4 d-flex justify-content-end text-center">
                 <ul class="list-inline mb-0">
                     <li class="list-inline-item">
-                        <h5 class="font-weight-bold mb-0 d-block">0</h5><small class="text-muted"> <i
-                                class="fas fa-image mr-1"></i>Photos</small>
+                        <h5 class="font-weight-bold mb-0 d-block">0</h5><small class="text-muted">
+                            Posts</small>
                     </li>
                     <li class="list-inline-item">
                         <h5 class="font-weight-bold mb-0 d-block">{{user.profile.followers_count}}</h5><small
-                            class="text-muted"> <i class="fas fa-user mr-1"></i>Followers</small>
+                            class="text-muted">Followers</small>
                     </li>
                     <li class="list-inline-item">
                         <h5 class="font-weight-bold mb-0 d-block">{{user.profile.following_count}}</h5><small
-                            class="text-muted"> <i class="fas fa-user mr-1"></i>Following</small>
+                            class="text-muted">Following</small>
                     </li>
                 </ul>
             </div>
+            <!--
             <div class="px-4 py-3">
                 <h5 class="mb-0">About</h5>
                 <div class="p-4 rounded shadow-sm bg-light">
@@ -65,10 +120,10 @@
                     <p class="font-italic mb-0">Lives in New York</p>
                 </div>
             </div>
-
+        -->
             <div class="py-4 px-4">
                 <div class="d-flex align-items-center justify-content-between mb-3">
-                    <h5 class="mb-0">Recent photos</h5><a href="#" class="btn btn-link text-muted">Show all</a>
+                    <h5 class="mb-0">All Posts</h5>
                 </div>
                 <div class="row pr-2 pl-2">
                     {% for u in all_posts %}
