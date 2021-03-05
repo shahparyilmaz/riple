@@ -129,7 +129,7 @@
                 <div class="feed-box-footer">
                     <div class="like_comment">
                         <div>
-                            <h6><span id="likeCount">{{feed.post.no_likes}}</span> like{{feed.post.no_likes.pluralize}}
+                            <h6><span class="likeCount" id="likeCount" data-likecountid="{{feed.post.id}}">{{feed.post.no_likes}}</span> like{{feed.post.no_likes.pluralize}}
                             </h6>
                             <h6><span id="commentCount">{{feed.post.no_comments}}</span>
                                 comment{{feed.post.no_comments.pluralize}}</h6>
@@ -137,7 +137,7 @@
 
 
                         <div id="likebtn" class="box" data-username="{{feed.post.user.username}}"
-                            data-postid="{{feed.post.id}}">
+                            data-postid="{{feed.post.id}}" data-likeid="{{feed.post.id}}">
                             {% if user in feed.post.likes %}
                             <i id="likeicon" class="bi bi-heart-fill"></i>
                             {% else %}

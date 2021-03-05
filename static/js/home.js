@@ -2,7 +2,7 @@ $(document).ready(function(){
 
 
     var csrfToken = $("input[name=csrfmiddlewaretoken]").val();
-    $('#likebtn').click(function(){
+    $('.box').click(function(){
         var username = $(this).data('username');
         var postid = $(this).data('postid');
         $.ajax({
@@ -14,7 +14,9 @@ $(document).ready(function(){
             },
             method : 'GET',
             success : function(response){
-                var icon = document.getElementById('likeicon')
+                var iconbox = $(`[data-likeid=${postid}]`)[0]
+                var icon = iconbox.children[0]
+                var likecount = $(`[data-likecountid=${postid}]`)[0]
                 if(icon.className=="bi bi-heart-fill"){
                     icon.classList[0].remove;
                     icon.setAttribute('class','bi bi-heart')
@@ -23,7 +25,7 @@ $(document).ready(function(){
                     icon.classList[0].remove;
                     icon.setAttribute('class','bi bi-heart-fill')
                 }
-                document.getElementById('likeCount').innerText=response.likes
+                likecount.innerText=response.likes
             }
         })
     })
