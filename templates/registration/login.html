@@ -31,12 +31,13 @@
         width: fit-content;
         display: flex;
         align-items: center;
-
+        justify-content: center;
     }
 
     .inner-login-container {
         border: 2px solid white;
-        border-radius: 2vmin;
+        border-radius: 3vmin;
+        width: 90vmin;
     }
 
     /*
@@ -72,17 +73,11 @@
         border: 1px solid white;
     }
 
-    ::placeholder {
-        /* Mozilla Firefox 4 to 18 */
-        color: #909;
-        opacity: 1;
-    }
 </style>
 
 
-<div class="container">
     <div class="login-container">
-        <div class="col-md-5 mx-auto inner-login-container">
+        <div class="inner-login-container col-md-5 mx-auto">
             <div id="first">
                 <div class="myform form" style="background-color: transparent;">
                     <div class="logo mb-3" style="background-color: transparent;">
@@ -127,7 +122,6 @@
         </div>
     </div>
 
-</div>
 
 
 <!---
