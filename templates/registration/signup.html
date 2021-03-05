@@ -4,62 +4,116 @@
 {% block content %}
 
 <style>
-    .mybtn{
+    .mybtn {
         background-color: crimson;
         color: white;
     }
-    #color{
+
+    #color {
         color: crimson;
+    }
+
+    .loginbtn {
+        background-color: white;
+        color: black;
+        border-radius: 2vmin;
+        transition: .2s ease;
+    }
+
+    .loginbtn:hover {
+        color: white;
+        background-color: black;
+        border: 1px solid white;
+    }
+
+    .login-container {
+        min-height: 100vh;
+        width: fit-content;
+        display: flex;
+        align-items: center;
+
+    }
+
+    .inner-login-container {
+        border: 2px solid white;
+        border-radius: 2vmin;
+    }
+
+    body {
+        background-image: linear-gradient(to bottom, rgb(51, 51, 51), black);
+        font-family: 'Source Sans Pro', sans-serif;
+    }
+
+    .login-title {
+        color: white;
+    }
+
+    .input {
+        color: white;
+        background-color: black;
+    }
+
+    .form-control {
+        color: white;
+        background-color: transparent;
+        border: 1px solid white;
+    }
+
+    .myinputs {
+        color: white;
     }
 </style>
 
 <link rel="stylesheet" type="text/css" href="static/css/style.css">
 
-    <div class="container">
-        <div class="row">
-            <div class="col-md-5 mx-auto"
-                style="background-color: rgb(245, 241, 241); margin-top: 20px; ">
-                <div id="first">
-                    <div class="myform form ">
-                        <div class="logo mb-3">
-                            <br>
-                            <div class="col-md-12 text-center">
-                                <h1>Signup</h1>
-                            </div>
+<div class="container">
+    <div class="login-container">
+        <div class="col-md-5 mx-auto inner-login-container">
+            <div id="first">
+                <div class="myform form ">
+                    <div class="logo mb-3">
+                        <br>
+                        <div class="col-md-12 text-center">
+                            <h1 class="login-title">Signup</h1>
                         </div>
-                        <form action="{% url 'register' %}" method="POST" name="registration">
-                            {% csrf_token %}
-                            <div class="form-group">
-                                <label for="{{form.username.id_for_label}}">Username</label>
-                                {{ form.username|add_class:'form-control' }}
-                            </div>
-                            <!--<div class="form-group">
+                    </div>
+                    <form action="{% url 'register' %}" method="POST" name="registration" style="color: white;">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="{{form.username.id_for_label}}">Username</label>
+                            {{ form.username|add_class:'form-control' }}
+                        </div>
+                        <!--<div class="form-group">
                                 <label for="exampleInputEmail1">Last Name</label>
                                 <input type="text" name="lastname" class="form-control" id="lastname"
                                     aria-describedby="emailHelp" placeholder="Enter Lastname">
                             </div>-->
 
-                            <!--<div class="form-group">
+                        <!--<div class="form-group">
                                 <label for="exampleInputEmail1">Email address</label>
                                 <input type="email" name="email" class="form-control" id="email"
                                     aria-describedby="emailHelp" placeholder="Enter email">
                             </div>-->
-                            <div class="form-group">
-                                <label for="{{form.password1.id_for_label}}">Password</label>
-                                {{ form.password1|add_class:'form-control' }}
-                            </div>
-                            <div class="form-group">
-                                <label for="{{form.password2.id_for_label}}">Confirm Password</label>
-                                {{ form.password2|add_class:'form-control' }}
-                            </div>
-                            <div class="form-group">
-                                <p class="text-center">By signing up you accept our <a href="#" id="color">Terms Of Use</a></p>
-                            </div>
-                            {{form.errors}}
-                            <div class="col-md-12 text-center mb-3">
-                                <button type="submit" class=" btn btn-block mybtn tx-tfm">Sign Up
-                                </button>
-                            </div>
+                        <div class="form-group">
+                            <label for="{{form.password1.id_for_label}}">Password</label>
+                            {{ form.password1|add_class:'form-control' }}
+                        </div>
+                        <div class="form-group">
+                            <label for="{{form.password2.id_for_label}}">Confirm Password</label>
+                            {{ form.password2|add_class:'form-control' }}
+                        </div>
+                        <!--
+                        <div class="form-group">
+                            <p class="text-center">By signing up you accept our <a href="#" id="color">Terms Of Use</a>
+                            </p>
+                        </div>
+                    -->
+                        {{form.errors}}
+                        <div class="col-md-12 text-center mb-3">
+                            <button type="submit" class=" btn btn-block mybtn tx-tfm">Sign Up
+                            </button>
+                        </div>
+                        <!--
                             <div class="col-md-12 ">
                                 <div class="login-or">
                                     <hr class="hr-or">
@@ -73,29 +127,29 @@
                                     </a>
                                 </p>
                             </div>
-                            <div class="col-md-12 ">
-                                <div class="form-group">
-                                    <p class="text-center">Already have an account? <a href="{% url 'login' %}" id="color">
-                                            Log In</a></p>
-                                </div>
-                            </div>                            
-                        </form>
-                    </div>
-
+                        -->
+                        <div class="col-md-12 ">
+                            <div class="form-group">
+                                <p class="text-center">Already have an account? <a href="{% url 'login' %}" id="color">
+                                        Log In</a></p>
+                            </div>
+                        </div>
+                    </form>
                 </div>
+
             </div>
         </div>
     </div>
+</div>
 
-    <script>
-		var form_fields = document.getElementsByTagName('input')
-		form_fields[1].placeholder='Username';
-		form_fields[2].placeholder='Enter password';
-		form_fields[3].placeholder='Confirm Password';
+<script>
+    var form_fields = document.getElementsByTagName('input')
+    form_fields[1].placeholder = 'Username';
+    form_fields[2].placeholder = 'Enter password';
+    form_fields[3].placeholder = 'Confirm Password';
 
-		for (var field in form_fields){	
-			form_fields[field].className += ' form-control'
-		}
-	</script>
+    for (var field in form_fields) {
+        form_fields[field].className += ' form-control'
+    }
+</script>
 {% endblock %}
-
