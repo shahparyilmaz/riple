@@ -45,7 +45,7 @@ post_save.connect(create_friends,sender=User)
 
 class Post(models.Model):
     caption = models.CharField(max_length=500,null=True,blank=True)
-    pic = models.ImageField(null=False,blank=False,upload_to="images/",default="default_user.png")
+    pic = models.ImageField(null=False,blank=False,upload_to="images/")
     user = models.ForeignKey(User,on_delete=models.CASCADE)
     time = models.DateTimeField(null=True,blank=True,auto_now_add=True)
     @property

@@ -228,15 +228,20 @@ def profile(request):
 @login_required(login_url='login')
 def post(request):
     form = PostForm()
-    if request.method=='POST':
-        form=PostForm(request.POST or None,request.FILES or None)
-        post=form.save(commit=False)
-        post.user=request.user
-        post.save()
-        messages.success(request,'Posted!')
     context={
         'form':form,
     }
+    if request.method=='POST':
+        form=PostForm(request.POST or None,request.FILES or None)
+        try:
+            post=form.save(commit=False)
+            post.user=request.user
+            post.save()
+            messages.success(request,'Posted!')
+            return redirect('home')
+        except:
+            messages.info(request,'Select a photo')
+            return render(request,'app/post.html',context)
     return render(request,'app/post.html',context)
 
 @login_required(login_url='login')

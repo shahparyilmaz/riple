@@ -61,6 +61,10 @@
                         {% endif %}
                     </ul>
                 </li>
+                <li>
+                    <a class="nav-link active" aria-current="page" href="/post">
+                        New Post</a>
+                </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/logout">Logout</a>
                 </li>
@@ -115,7 +119,9 @@
                     </div>
                 </div>
                 <div class="post-div">
+                    <a href="/user/{{feed.post.user.username}}/{{feed.post.id}}">
                     <img src="{{feed.post.pic.url}}" alt="" class="post-img">
+                    </a>
                 </div>
                 <div class="feed-box-caption">
                     <h6>{{feed.post.caption}}</h6>
