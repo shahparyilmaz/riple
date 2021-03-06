@@ -8,12 +8,11 @@
 
 
 <style>
-    @media only screen and (max-width: 915px){
-    .notif-container{
-        display: none;
+    @media only screen and (max-width: 915px) {
+        .notif-container {
+            display: none;
+        }
     }
-}
-
 </style>
 <!--Profile box-->
 <!--Navbar-->
@@ -118,18 +117,31 @@
                         -->
                     </div>
                 </div>
+                {% if feed.post.isavideo %}
+                <div class="post-id">
+                    <video src="{{feed.post.pic.url}}" controls class="post-video"></video>
+                </div>
+                {% else %}
                 <div class="post-div">
                     <a href="/user/{{feed.post.user.username}}/{{feed.post.id}}">
-                    <img src="{{feed.post.pic.url}}" alt="" class="post-img">
+                        <img src="{{feed.post.pic.url}}" alt="" class="post-img">
                     </a>
                 </div>
+                {% endif %}
+                {% if feed.post.caption %}
                 <div class="feed-box-caption">
                     <h6>{{feed.post.caption}}</h6>
                 </div>
+                {% else %}
+                <div class="feed-box-caption">
+                </div>
+                {% endif %}
                 <div class="feed-box-footer">
                     <div class="like_comment">
                         <div>
-                            <h6><span class="likeCount" id="likeCount" data-likecountid="{{feed.post.id}}">{{feed.post.no_likes}}</span> like{{feed.post.no_likes.pluralize}}
+                            <h6><span class="likeCount" id="likeCount"
+                                    data-likecountid="{{feed.post.id}}">{{feed.post.no_likes}}</span>
+                                like{{feed.post.no_likes.pluralize}}
                             </h6>
                             <h6><span id="commentCount">{{feed.post.no_comments}}</span>
                                 comment{{feed.post.no_comments.pluralize}}</h6>
@@ -188,11 +200,19 @@
                         </div>
                     </div>
                     {% if i.post.pic %}
+                    {% if i.post.isavideo %}
+                    <div class="post-img-container">
+                        <a href="/user/{{i.notifier.username}}/{{i.post.id}}">
+                            <video class="post-img" src="{{i.post.pic.url}}"></video>
+                        </a>
+                    </div>
+                    {% else %}
                     <div class="post-img-container">
                         <a href="/user/{{i.notifier.username}}/{{i.post.id}}">
                             <img class="post-img" src="{{i.post.pic.url}}">
                         </a>
                     </div>
+                    {% endif %}
                     {% endif %}
                 </div>
             </li>
@@ -201,8 +221,12 @@
     </div>
 </div>
 
+<script>
+    var cw = $('.post-video').width();
+    $('.post-video').css({ 'max-height': cw + 'px' });
+</script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script type="text/javascript"> window.CSRF_TOKEN = "{{ csrf_token }}"; </script>
+<script type="text/javascript"> window.CSRF_TOKEN = "{{ csrf_token }}";</script>
 <script type="text/javascript" src="static/js/home.js"></script>
 
 {% endblock %}

@@ -166,11 +166,19 @@
                         </div>
                     </div>
                     {% if i.post.pic %}
+                    {% if i.post.isavideo %}
+                    <div class="post-img-container">
+                        <a href="/user/{{i.notifier.username}}/{{i.post.id}}">
+                            <video class="post-img" src="{{i.post.pic.url}}"></video>
+                        </a>
+                    </div>
+                    {% else %}
                     <div class="post-img-container">
                         <a href="/user/{{i.notifier.username}}/{{i.post.id}}">
                             <img class="post-img" src="{{i.post.pic.url}}">
                         </a>
                     </div>
+                    {% endif %}
                     {% endif %}
                 </div>
             </li>

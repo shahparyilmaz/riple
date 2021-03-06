@@ -8,12 +8,11 @@
 <link rel="preconnect" href="https://fonts.gstatic.com">
 <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300&display=swap" rel="stylesheet">
 <style>
-
-
-    .header a{
+    .header a {
         text-decoration: none;
         color: whitesmoke;
     }
+
     .mycontainer {
         width: 100%;
         min-height: 500px;
@@ -61,7 +60,8 @@
         object-fit: cover;
         object-position: center center;
     }
-    .namesanddates{
+
+    .namesanddates {
         width: 80%;
         height: 100%;
         display: flex;
@@ -70,12 +70,12 @@
         padding-right: 5vmin;
         padding-left: 3vmin;
     }
+
     .names {
         height: fit-content;
     }
 
-    .postdate {
-    }
+    .postdate {}
 
     .img-container {
         width: 100%;
@@ -84,6 +84,14 @@
     .img-container img {
         width: 100%;
         height: 100%;
+        object-fit: cover;
+        object-position: center center;
+        background-position: center center;
+        border-radius: 3vmin;
+    }
+
+    .img-container video {
+        width: 100%;
         object-fit: cover;
         object-position: center center;
         background-position: center center;
@@ -218,7 +226,8 @@
         background-color: rgb(232, 233, 232);
         color: rgb(37, 37, 37);
     }
-    .comment-img-container{
+
+    .comment-img-container {
         height: 10vmin;
         max-height: 3rem;
         width: 10vmin;
@@ -226,7 +235,8 @@
         margin-left: 3vmin;
         border-radius: 50%;
     }
-    .comment-img-container img{
+
+    .comment-img-container img {
         border-radius: 50%;
         width: 100%;
         height: 100%;
@@ -245,8 +255,8 @@
         display: flex;
         justify-content: space-between;
     }
-    .comment-username{
-    }
+
+    .comment-username {}
 </style>
 
 <div class="container">
@@ -272,18 +282,30 @@
 
                 </div>
             </div>
+            {% if post.isavideo %}
+            <div class="img-container">
+                <video id="post" src="{{post.pic.url}}" controls></video>
+            </div>
+            {% else %}
             <div class="img-container">
                 <img id="post" src="{{post.pic.url}}" alt="">
             </div>
+            {% endif %}
             <div class="commentbox">
+                {% if post.caption %}
                 <div class="line0">
                     <p class="caption">{{post.caption}}</p>
                 </div>
-                    <form class="line1" id="comment-form" data-url="/add_comment/{{poster.username}}/{{post.id}}" data-username="{{poster.username}}" data-id="{{post.id}}">
-                        {% csrf_token %}
-                        <input id="comment-content" class="form-control myform" type="text" placeholder="Comment here">
-                        <button id="comment-btn" class="btn btn-dark mybtn">Post</button>
-                    </form>
+                {% else %}
+                <div class="line0">
+                </div>
+                {% endif %}
+                <form class="line1" id="comment-form" data-url="/add_comment/{{poster.username}}/{{post.id}}"
+                    data-username="{{poster.username}}" data-id="{{post.id}}">
+                    {% csrf_token %}
+                    <input id="comment-content" class="form-control myform" type="text" placeholder="Comment here">
+                    <button id="comment-btn" class="btn btn-dark mybtn">Post</button>
+                </form>
                 <div class="line2">
                     <div class="stats">
                         <p><span id="likecount">{{no_likes}}</span> like{{no_likes.pluralize}}</p>
@@ -292,14 +314,16 @@
                     <!--
                     <button id="likebtn2" class="likebtn"><i id="likebtn" class="bi bi-heart-fill likebtn"></i></button>
                     -->
-                    <div id="likebtn2" class= "likebtn">
+                    <div id="likebtn2" class="likebtn">
                         {% if user in post.likes %}
-                        <i id="likebtn" class="bi bi-heart-fill likebtn" data-username="{{post.user.username}}" data-postid="{{post.id}}"></i>
+                        <i id="likebtn" class="bi bi-heart-fill likebtn" data-username="{{post.user.username}}"
+                            data-postid="{{post.id}}"></i>
                         {% else %}
-                        <i id="likebtn" class="bi bi-heart likebtn" data-username="{{post.user.username}}" data-postid="{{post.id}}"></i>
+                        <i id="likebtn" class="bi bi-heart likebtn" data-username="{{post.user.username}}"
+                            data-postid="{{post.id}}"></i>
                         {% endif %}
                     </div>
-                
+
                 </div>
                 <!--
                     <div class="card" style="width: 100%;">
@@ -309,25 +333,26 @@
                     </div>
                 -->
             </div>
-                <div id="allComments">
-                    {% if comments %}
-                    {% for comment in comments %}
-                    <div class="comment-line">
-                        <div class="comment-img-container">
-                            <img src="{{comment.user.profile.profile_pic.url}}" alt="">
-                        </div>
-                        <div class="usernameandcomment">
-                            <div class="comment-user">
-                                <strong class="comment-username">{{comment.user.username}}</strong>
-                                <span class="comment-date">{{comment.display_time}},{{comment.display_date}}</span>
-                            </div>
-                            <div class="comment-content" style="word-break:break-all; margin-right: 3vmin;">{{comment.content}}</div>
-                        </div>
+            <div id="allComments">
+                {% if comments %}
+                {% for comment in comments %}
+                <div class="comment-line">
+                    <div class="comment-img-container">
+                        <img src="{{comment.user.profile.profile_pic.url}}" alt="">
                     </div>
-                    {% endfor %}
-                    {% endif %}
+                    <div class="usernameandcomment">
+                        <div class="comment-user">
+                            <strong class="comment-username">{{comment.user.username}}</strong>
+                            <span class="comment-date">{{comment.display_time}},{{comment.display_date}}</span>
+                        </div>
+                        <div class="comment-content" style="word-break:break-all; margin-right: 3vmin;">
+                            {{comment.content}}</div>
+                    </div>
                 </div>
-            
+                {% endfor %}
+                {% endif %}
+            </div>
+
         </div>
     </div>
 </div>
@@ -337,6 +362,7 @@
 <script type="text/javascript">
     var cw = $('.img-container').width();
     $('.img-container').css({ 'max-height': cw + 'px' });
+    $('#post').css({'max-height':cw+'px'});
     var header_height = $('.header-line').height()
     var header_font_size = parseInt(header_height) * 0.18
     $('.header').css({ 'font-size': header_font_size + 'px' })
@@ -348,17 +374,17 @@
     var comment_font = post_font_size
     $('.comment-username').css({ 'font-size': comment_font + 'px' })
     $('.comment-content').css({ 'font-size': comment_font + 'px' })
-    $('.comment-date').css({'font-size':comment_font*0.8+'px'})
+    $('.comment-date').css({ 'font-size': comment_font * 0.8 + 'px' })
     var likebtnfont = parseInt($('.line2').height()) * 0.6
     $('#likebtn').css({ 'font-size': likebtnfont + 'px' })
     $('.caption').css({ 'font-size': comment_font * 1.1 + 'px' })
-   
+
     //var comment_img_height = parseInt($('.comment-img-container').height())
     //$('.comment-img-container').css({'width':comment_img_height*1.19+'px'})
     //var comment_img_width = $('.comment-img-container').width()
 </script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-<script type="text/javascript"> window.CSRF_TOKEN = "{{ csrf_token }}"; </script>
+<script type="text/javascript"> window.CSRF_TOKEN = "{{ csrf_token }}";</script>
 <script type="text/javascript" src="/static/js/post.js" defer></script>
 {% endblock %}

@@ -73,6 +73,29 @@
         align-items: center;
         justify-content: space-between;
     }
+
+    .selected {
+        padding: 1vmin 2vmin 1vmin 2vmin;
+        border-bottom: 0.7vmin solid rgb(29, 29, 29);
+    }
+    .video-container{
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .video-container::after{
+        content: "";
+        width: 20%;
+        height: 20%;
+        position: absolute;
+        background-image: url(/media/playicon.png);
+        background-position: center;
+        background-size: cover;
+        opacity: 0.7;
+        z-index: 1;
+    }
 </style>
 
 <div class="row py-0 px-4">
@@ -122,25 +145,71 @@
             </div>
         -->
             <div class="py-4 px-4">
-                <div class="d-flex align-items-center justify-content-between mb-3">
-                    <h5 class="mb-0">All Posts</h5>
+                <div class="d-flex align-items-center justify-content-around mb-3">
+                    <h5 id="photos" class="selected" style="cursor:pointer">Photos</h5>
+                    <h5 id="videos" style="cursor:pointer">Videos</h5>
                 </div>
-                <div class="row pr-2 pl-2">
+                <div class="row pr-2 pl-2" id="allPhotos" style="display: flex;">
                     {% for u in all_posts %}
+                    {% if u.isavideo %}
+                    {% else %}
                     <div class="col-lg-6 pl-lg-3 pr-lg-3 mb-3 mt-3">
                         <a href="{{user.username}}/{{u.id}}">
-                            <img style="height: 100%;width: 100%;" src="{{u.pic.url}}" alt=""
-                                class="img-fluid shadow-sm">
+                            <img id="post-img" style="height:100%;width: 100%;" src="{{u.pic.url}}" alt=""
+                                class="img-fluid shadow-sm post-img">
                         </a>
                     </div>
+                    {% endif %}
                     {% endfor %}
-
+                </div>
+                <div class="row pr-2 pl-2" id="allVideos" style="display: none;">
+                    {% for u in all_posts %}
+                    {% if u.isavideo %}
+                    <div class="col-lg-6 pl-lg-3 pr-lg-3 mb-3 mt-3">
+                        <a href="{{user.username}}/{{u.id}}">
+                            <div class="video-container">
+                            <video style="width: 100%;" src="{{u.pic.url}}" alt=""
+                                class="img-fluid shadow-sm post-video"></video>
+                            </div>
+                        </a>
+                    </div>
+                    {% else %}
+                    {% endif %}
+                    {% endfor %}
                 </div>
             </div>
         </div>
     </div>
 </div>
 
+
+
+<script>
+    var w = $('.post-video').width()
+    var w2 = $('.post-img').width()
+    $('.post-video').css({ 'max-height': w2 + 'px' })
+
+    $('.post-img').css({'height': w2 + 'px'})
+    var photos = document.getElementById('photos');
+    var videos = document.getElementById('videos');
+    photos.addEventListener('click', function () {
+        document.getElementById('allPhotos').style['display'] = 'flex';
+        document.getElementById('allVideos').style['display'] = 'none';
+        document.querySelectorAll('.selected').forEach(part => {
+            part.classList.remove('selected')
+        })
+        photos.classList.add('selected')
+    })
+    videos.addEventListener('click', function () {
+        document.getElementById('allPhotos').style['display'] = 'none';
+        document.getElementById('allVideos').style['display'] = 'flex';
+        document.querySelectorAll('.selected').forEach(part => {
+            part.classList.remove('selected')
+        })
+        videos.classList.add('selected')
+    })
+
+</script>
 {% endblock %}
 
 <!--

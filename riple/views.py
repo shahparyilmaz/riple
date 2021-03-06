@@ -240,7 +240,7 @@ def post(request):
             messages.success(request,'Posted!')
             return redirect('home')
         except:
-            messages.info(request,'Select a photo')
+            messages.info(request,'Select a valid file')
             return render(request,'app/post.html',context)
     return render(request,'app/post.html',context)
 

@@ -2,6 +2,9 @@ from django.db import models
 import datetime
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save,post_delete
+from .validators import validate_file_extension
+import os
+from django.core.exceptions import ValidationError
 # Create your models here.
     
 class Friends(models.Model):
@@ -45,9 +48,10 @@ post_save.connect(create_friends,sender=User)
 
 class Post(models.Model):
     caption = models.CharField(max_length=500,null=True,blank=True)
-    pic = models.ImageField(null=False,blank=False,upload_to="images/")
+    pic = models.FileField(null=True,blank=True,upload_to="files/" , validators=[validate_file_extension]) #or video
     user = models.ForeignKey(User,on_delete=models.CASCADE)
     time = models.DateTimeField(null=True,blank=True,auto_now_add=True)
+    isavideo = models.BooleanField(null=True,blank=True)
     @property
     def display_date(self):
         return self.time.strftime("%b %d")
@@ -73,6 +77,18 @@ class Post(models.Model):
         for c in Comment.objects.filter(post=self):
             user_list.append(c.user)
         return user_list
+        
+def setisavideo(sender,instance,created,**kwargs):
+    if created:
+        value = instance.pic
+        ext = os.path.splitext(value.name)[1]
+        if ext == '.mp4':
+            instance.isavideo=True
+        else:
+            instance.isavideo=False
+        instance.save()
+
+post_save.connect(setisavideo,sender=Post)
 
 class Notification(models.Model):
     NOTIFICATION_TYPES=((1,'Like'),(2,'Comment'),(3,'Follow'),(4,'Request'),(5,'Aceepted'))
@@ -87,9 +103,9 @@ class Notification(models.Model):
     @property
     def notification_message(self):
         if self.notification_type==1:
-            return "liked your photo"
+            return "liked your post"
         elif self.notification_type==2:
-            return "commented on your photo"
+            return "commented on your post"
         elif self.notification_type==3:
             return "followed you"
         elif self.notification_type==4:
