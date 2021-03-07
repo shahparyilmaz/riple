@@ -64,6 +64,9 @@ def user(request,username):
     user=User.objects.get(username=username)
     allowed_users=user.profile.followers()
     requested=False
+    yourProfile = False
+    if user==request.user:
+        yourProfile = True
     try:
         if Notification.objects.get(user=user,notifier=request.user,notification_type=4) is not None:
             requested=True
@@ -73,7 +76,8 @@ def user(request,username):
         'user':user,
         'allowed_users':allowed_users,
         'all_posts':user.post_set.all().order_by('-time'),
-        'requested':requested
+        'requested':requested,
+        'yourProfile':yourProfile
     }
     if request.user in allowed_users:
         return render(request,'app/userprofileunlocked.html',context)
@@ -245,6 +249,12 @@ def post(request):
     return render(request,'app/post.html',context)
 
 @login_required(login_url='login')
+def deletepost(request,id):
+    user=Post.objects.get(id=id).user
+    Post.objects.get(id=id).delete()
+    return redirect(f'/user/{user.username}')
+
+@login_required(login_url='login')
 def edit(request,id):
     user=request.user
     post=Post.objects.get(id=id)
@@ -372,8 +382,5 @@ def unfollow(request,id):
     for p in posts:
         FeedPost.objects.get(post=p).users.remove(request.user)
     path=request.GET.get('path')
-    if path=='/':
-        return redirect('home')
-    else:
-        return redirect(f"{path}")
-
+    return redirect(f"{path}")
+ 

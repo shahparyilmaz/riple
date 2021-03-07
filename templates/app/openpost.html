@@ -255,10 +255,20 @@
         display: flex;
         justify-content: space-between;
     }
-
+    #delete{
+        cursor: pointer;
+        transition: 0.2s ease;
+    }
+    .deleteicon{
+        font-size: 5vmin;
+        transition: 0.2s ease;
+    }
+    #delete:hover .deleteicon{
+        font-size: 7vmin;
+    }
     .comment-username {}
 </style>
-
+<div id="dummy"></div>
 <div class="container">
     <div class="mycontainer">
         <div class="mainbox">
@@ -273,11 +283,22 @@
                             <br>
                             <a href="/user/{{poster.username}}">{{poster.username}}</a>
                         </div>
+                        <div>
+                            <a href="/delete/{{post.id}}">
+                            <div id="delete" style="text-align: center;">
+                                <i class="bi bi-trash deleteicon"></i>
+                                <br>
+                                Delete
+                            </div>
+                            </a>
+
+                        </div>
                         <div class="postdate" style="float: right;">
                             {{post.display_time}}
                             <br>
                             {{post.display_date}}
                         </div>
+
                     </div>
 
                 </div>
@@ -362,10 +383,12 @@
 <script type="text/javascript">
     var cw = $('.img-container').width();
     $('.img-container').css({ 'max-height': cw + 'px' });
-    $('#post').css({'max-height':cw+'px'});
+    $('#post').css({ 'max-height': cw + 'px' });
     var header_height = $('.header-line').height()
-    var header_font_size = parseInt(header_height) * 0.18
-    $('.header').css({ 'font-size': header_font_size + 'px' })
+    $('#dummy').css({ 'width': header_height * 0.18 + 'px' })
+    $('#dummy').css({ 'max-width': '1.1rem' })
+    var dummy_width = $('#dummy').width();
+    $('.header').css({ 'font-size': dummy_width + 'px' })
     var form_font_size = parseInt($('.myform').height()) * 0.6
     $('.mybtn').css({ 'font-size': form_font_size + 'px' })
     var post_font_size = parseInt($('.mybtn').height()) * 0.6

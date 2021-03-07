@@ -6,21 +6,16 @@
 
 <style>
     .post-container {
-        display: flex;
-        justify-content: center;
         width: 500px;
-
-    }
-
-    .full-width-container {
-        width: 500px;
-        display: flex;
-        justify-content: center;
-
+        height: fit-content;
     }
 
     .full-width {
+        margin-top: 10vmin;
         width: 100%;
+        height: fit-content;
+        padding-left: 5%;
+        padding-right: 5%;
     }
 
     .my-btn {
@@ -60,13 +55,22 @@
     }
 
     .post-preview {
-        width: 100%;
+        width: 80%;
+        margin-left: 10%;
+        margin-right: 10%;
         display: flex;
-        justify-content: center;        
+        justify-content: center;
+        background-color: aqua;
     }
 
     .post-preview img {
-        width: 80%;
+        width: 100%;
+        object-fit: cover;
+        object-position: center center;
+    }
+
+    .post-preview video {
+        width: 100%;
         object-fit: cover;
         object-position: center center;
     }
@@ -75,7 +79,7 @@
 
 <nav class="navbar navbar-expand-lg nav-color sticky" style="position: sticky;top: 0;z-index: 1;">
     <div class="container-fluid">
-        <a class="navbar-brand" href="#">
+        <a class="navbar-brand" href="/user/{{user.username}}">
             <img class="home-self-img" src="{{user.profile.profile_pic.url}}">
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
@@ -153,33 +157,34 @@
     -->
 
     <div class="post-container">
-        <div class="full-width">
-            {% for msg in messages %}
-            <h2>{{msg}}</h2>
-            {% endfor %}
-            <form action="" method="POST" enctype="multipart/form-data" class="full-width mt-3">
-                {% csrf_token %}
-                <div class="mt-3 mb-3">
-                    <label for="{{form.caption.id_for_label}}" class="form-label">Caption:</label>
-                    {{form.caption|add_class:'form-control'}}
+        {% for msg in messages %}
+        <h2>{{msg}}</h2>
+        {% endfor %}
+        <form action="" method="POST" enctype="multipart/form-data" class="full-width">
+            {% csrf_token %}
+            <div class="mt-3 mb-3">
+                <label for="{{form.caption.id_for_label}}" class="form-label">Caption:</label>
+                {{form.caption|add_class:'form-control'}}
+            </div>
+            <div class="mt-3 mb-3 form-pic">
+                <div class="form-pic-inner">
+                    <label class="form-pic-label" for="{{form.pic.id_for_label}}">Upload File</label>
                 </div>
-                <div class="mt-3 mb-3 form-pic">
-                    <div class="form-pic-inner">
-                        <label class="form-pic-label" for="{{form.pic.id_for_label}}">Upload File</label>
-                    </div>
-                    {{form.pic|add_class:'form-control form-pic-input'}}
+                {{form.pic|add_class:'form-control form-pic-input'}}
+            </div>
+            <div class="post-preview">
+                <img id="selected_img" src="" alt="">
+            </div>
+            <div class="post-preview">
+                <video id="selected_video" src="" controls style="display: none;"></video>
+            </div>
+            <div class="center-btn">
+                <div class="col-md-8 mt-3 mb-3">
+                    <button type="submit" class=" btn btn-block my-btn tx-tfm">Post
+                    </button>
                 </div>
-                <div class="post-preview">
-                    <img id="selected_img" src="" alt="">
-                </div>
-                <div class="center-btn">
-                    <div class="col-md-8 mt-3 mb-3">
-                        <button type="submit" class=" btn btn-block my-btn tx-tfm">Post
-                        </button>
-                    </div>
-                </div>
-            </form>
-        </div>
+            </div>
+        </form>
     </div>
 </div>
 
@@ -187,20 +192,26 @@
 <script>
     const img_selected_form = document.getElementById('id_pic')
     var img_preview = document.querySelector('#selected_img')
+    var video_preview = document.querySelector('#selected_video')
 
     img_selected_form.addEventListener('change', function () {
         const file = this.files[0]
-        console.log(file)
         if (file) {
-            console.log('file valid')
+            video_preview.setAttribute('src', this.result)
+            img_preview.setAttribute('src', this.result)
             const reader = new FileReader(file);
-            console.log(reader)
             reader.addEventListener('load', function () {
-                console.log('reader again')
-                console.log(reader)
-                img_preview.setAttribute('src', this.result)
-                console.log('hi')
-                console.log(this.result)
+                var filetype = this.result.split(':')[1].split('/')[0]
+                if (filetype=='video') {
+                    console.log(filetype)
+                    video_preview.style['display'] = 'block'
+                    video_preview.setAttribute('src', this.result)
+                }
+                else if(filetype=='image'){
+                    img_preview.setAttribute('src', this.result)
+                    video_preview.style['display'] = 'none'
+                }
+
             })
             reader.readAsDataURL(file)
         }

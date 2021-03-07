@@ -12,6 +12,7 @@ urlpatterns = [
     path('profile/delete/',views.delete,name='delete'),
     path('notifications/',views.notifications,name='notifications'),
     path('post/',views.post,name='post'),
+    path('delete/<int:id>',views.deletepost,name='delete'),
     path('edit/<int:id>',views.edit,name='edit'),
     path('following',views.following,name='following'),
     path('followers',views.followers,name='followers'),
