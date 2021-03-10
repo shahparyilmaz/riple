@@ -4,6 +4,7 @@ from riple import views
 
 urlpatterns = [
     path('',views.home,name='home'),
+    path('ajaxhome/<slug:username>',views.ajaxhome,name='ajaxhome'),
     path('home_search',views.home_search,name='home_search'),
     path('register/',views.signup,name='register'),
     path('login/',views.loginpage,name='login'),
@@ -14,10 +15,12 @@ urlpatterns = [
     path('post/',views.post,name='post'),
     path('delete/<int:id>',views.deletepost,name='delete'),
     path('edit/<int:id>',views.edit,name='edit'),
-    path('following',views.following,name='following'),
+    path('user/<slug:username>/following',views.following,name='following'),
+    path('user/<slug:username>/followers',views.followers,name='followers'),
     path('followers',views.followers,name='followers'),
     path('follow/<int:id>',views.follow,name='follow'),
     path('unfollow/<int:id>',views.unfollow,name='unfollow'),
+    path('removefollower/<int:id>',views.remove_follower,name='removefollower'),
     path('follow_req/<int:id>',views.follow_req,name='follow_req'),
     path('cancel_req/<int:id>',views.cancel_req,name='cancel_req'),
     path('req_accept/<int:id>',views.req_accept,name='req_accept'),

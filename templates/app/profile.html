@@ -4,12 +4,13 @@
 {% load static %}
 
 <link rel="stylesheet" type="text/css" href="{% static 'css/home2.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'css/profile2.css' %}">
+
 
 
 <style>
 
 </style>
-
 <nav class="navbar navbar-expand-lg nav-color sticky" style="position: sticky;top: 0;z-index: 1;">
     <div class="container-fluid">
         <a class="navbar-brand" href="/user/{{user.username}}">
@@ -60,9 +61,6 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/logout">Logout</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-                </li>
             </ul>
             <form class="d-flex" action="/home_search" method="POST">
                 {% csrf_token %}
@@ -77,33 +75,116 @@
 </nav>
 
 
-
-
 <div class="outermost-container">
-
-<div class="container bg-white" style="max-width:500px;">
-    <div>
-    <h1>Profile</h1>
     
-    <form method='POST' action="" enctype="multipart/form-data">
-        {% csrf_token %}
-        <div class="mb-3">
-            <label for="{{form.age.id_for_label}}">Age</label>
-            {{form.age|add_class:'form-control'}}
-        </div>
-        <div class="mb-3">
-            <label for="{{form.profile_pic.id_for_label}}">Profile Pic</label>
-            <br>
-            {{form.profile_pic|add_class:'form-control'}}
-            <a href="/profile/delete"><button type="button" class="btn btn-danger btn-sm">Delete</button></a>
-        </div>
+    <div class="profile-container">
 
-        <br>
-        <input type="submit" class="btn btn-primary btn-lg" value="save">
-    </form>
+        <form method='POST' action="" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="line-first">
+                <div class="profilepic-container">
+                    <img src="{{user.profile.profile_pic.url}}" alt="" id="profilepic" class="profilepic">
+                </div>
+                <div class="profile-form-input">
+                    {{form.profile_pic|add_class:'form-control profile-form'}}
+                </div>
+                <div class="details">
+                    <input type="text" class="dummy" id="dummyage" placeholder="Age" value="{{user.profile.age}}">
+                    <br>
+                    <input type="text" class="dummy" id="dummyname" placeholder="Name" value="{{user.username}}">
+                    <br>
+                    <input type="text" class="dummy" id="dummybio" placeholder="Bio" value="">
+                </div>
+                {{form.age|add_class:'form-control age-form'}}
+        
+    </div>
+    <div class="line-second">
+        <button class="profile-btn" type="submit">Save</button>
+    </div>
+</form>
+    <div class="line-third">
+        <span id="followers" class="selected">Followers ({{followerscount}})</span>
+        <span id="following">Following ({{followingcount}})</span>
+    </div>
+    <div class="line-fourth">
+        <ul class="list-group followcontainer" id="followerslist">
+            {% for f in followerslist %}
+            <li class="list-group-item center li-body">
+                <div class="toast-header notibody">
+                    <div style="display: flex;flex-direction: row;">
+                        <div class="notifier-img-container">
+                            <a href="/user/{{f.username}}">
+                                <img src="{{f.profile.profile_pic.url}}" class="notifier-img"
+                                    style="object-fit: cover;background-position: center;border-radius: 50%;" alt="...">
+                            </a>
+                        </div>
+                        <div class="message" style="display: flex;flex-direction: column;word-break: break-all;">
+                            <a href="/user/{{f.username}}">
+                                <strong>{{f.username}}</strong>
+                            </a>
+                            <small class="text-muted mr-2" style="font-size:0.8rem">name</small>
+                        </div>
+                    </div>
+                    <button class="removebtn" data-userid="{{f.id}}">Remove</button>
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+        
+        <ul class="list-group followcontainer" id="followinglist" style="display: none;">
+            {% for f in followinglist %}
+            <li class="list-group-item center li-body">
+                <div class="toast-header notibody">
+                    <div style="display: flex;flex-direction: row;">
+                        <div class="notifier-img-container">
+                            <a href="/user/{{f.user.username}}">
+                                <img src="{{f.user.profile.profile_pic.url}}" class="notifier-img"
+                                    style="object-fit: cover;background-position: center;border-radius: 50%;" alt="...">
+                            </a>
+                        </div>
+                        <div class="message" style="display: flex;flex-direction: column;word-break: break-all;">
+                            <a href="/user/{{f.user.username}}">
+                                <strong>{{f.user.username}}</strong>
+                            </a>
+                            <small class="text-muted mr-2" style="font-size:0.8rem">name</small>
+                        </div>
+                    </div>
+                    <button class="unfollowbtn" data-userid="{{f.user.id}}">Unfollow</button>
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
 </div>
-    <br>
+
 
 </div>
 </div>
+
+
+<script>
+    $('.profilepic').click(function () {
+        $('.profile-form').click()
+    })
+    document.getElementById('dummyage').addEventListener('change', function () {
+        var age = this.value
+        document.getElementById('id_age').value = age;
+    })
+
+    var dp = document.querySelector('#profilepic')
+    var img_selected_form = document.querySelector('#id_profile_pic')
+    img_selected_form.addEventListener('change', function () {
+        const file = this.files[0]
+        if (file) {
+            const reader = new FileReader(file);
+            reader.addEventListener('load', function () {
+                dp.setAttribute('src', this.result)
+            })
+            reader.readAsDataURL(file)
+        }
+    })
+</script>
+
+<script type="text/javascript" src="/static/js/profile.js"></script>
+
 {% endblock %}

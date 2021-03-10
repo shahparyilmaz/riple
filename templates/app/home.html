@@ -3,7 +3,8 @@
 {% load widget_tweaks %}
 {% block content %}
 <link rel="stylesheet" type="text/css" href="static/css/homenotif.css">
-<link rel="stylesheet" type="text/css" href="static/css/home2.css">
+<link rel="stylesheet" type="text/css" href="static/css/home.css">
+<link rel="stylesheet" href="static/css/slide2.css">
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
 
@@ -12,6 +13,21 @@
     @media only screen and (max-width: 915px) {
         .notif-container {
             display: none;
+        }
+
+        .outermost-container {
+            flex-direction: column-reverse;
+            justify-content: center;
+            padding: 0;
+            margin: 0;
+        }
+
+        .feed-container {
+            width: 100vmin;
+        }
+
+        .feed-box {
+            width: 100vmin;
         }
     }
 </style>
@@ -68,9 +84,6 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/logout">Logout</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-                </li>
             </ul>
             <form class="d-flex" action="/home_search" method="POST">
                 {% csrf_token %}
@@ -125,7 +138,7 @@
                 {% else %}
                 <div class="post-div">
                     <a href="/user/{{feed.post.user.username}}/{{feed.post.id}}">
-                    <img src="{{feed.post.pic.url}}" alt="" class="post-img">
+                        <img src="{{feed.post.pic.url}}" alt="" class="post-img">
                     </a>
                 </div>
                 {% endif %}
@@ -172,65 +185,136 @@
     </div>
     <!--Feed Ends-->
 
-
-
-
-    <div class="notif-container">
-        <ul class="list-group full-width">
-            {% for i in notifications %}
-            <li class="list-group-item center li-body">
-                <div class="toast-header notibody">
-                    <div style="display: flex;flex-direction: row;">
-                        <div class="notifier-img-container">
-                            <a href="/user/{{i.notifier.username}}">
-                                <img src="{{i.notifier.profile.profile_pic.url}}" class="notifier-img"
-                                    style="object-fit: cover;background-position: center;border-radius: 50%;" alt="...">
-                            </a>
+    <div>
+        <div class="outer-slide-container">
+            <div class="slide-title"><i>Suggestions for you</i></div>
+            <div class="slide-container">
+                {% if randomuser1 %}
+                <div class="slide-container-half first">
+                    <div id="slide1">
+                    <a href="/user/{{randomuser1.username}}">
+                        <div class="slide-user">
+                            <div class="slide-img-container">
+                                <img class="slide-img" src="{{randomuser1.profile.profile_pic.url}}" alt="">
+                            </div>
+                            <div class="details">
+                                <strong>First User</strong>
+                                <br>
+                                <span id="slide1username" data-userid="{{randomuser1.id}}">{{randomuser1.username}}</span>
+                                <br>
+                                <i>Bio</i>
+                            </div>
                         </div>
-                        <div>
-                            <div class="message">
+                    </a>
+                </div>
+                    <div class="slide-buttons">
+                        <button id="followone" class="slidebtn followone">Follow</button>
+                        <button id="requestone" class="slidebtn requestone">Request</button>
+                    </div>
+                </div>
+                {% else %}
+                {% endif %}
+
+                {% if randomuser2 %}
+                <div class="slide-container-half second">
+                    <div id="slide2">
+                    <a href="/user/{{randomuser2.username}}">
+                        <div class="slide-user">
+                            <div class="slide-img-container">
+                                <img class="slide-img" src="{{randomuser2.profile.profile_pic.url}}" alt="">
+                            </div>
+                            <div class="details">
+                                <strong>First User</strong>
+                                <br>
+                                <span id="slide2username" data-userid="{{randomuser2.id}}">{{randomuser2.username}}</span>
+                                <br>
+                                <i>Bio</i>
+                            </div>
+                        </div>
+                    </a>
+                    </div>
+                    <div class="slide-buttons">
+                        <button id="followtwo" class="slidebtn followtwo">Follow</button>
+                        <button id="requesttwo" class="slidebtn requesttwo">Request</button>
+                    </div>
+                </div>
+                {% else %}
+                {% endif %}
+                <div class="next-buttons">
+                    <i id="nextone" class="bi bi-x nexticon"></i>
+                </div>
+                <div class="next-buttons">
+                    <i id="nexttwo" class="bi bi-x nexticon"></i>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="notif-container">
+            <ul class="list-group full-width">
+                {% for i in notifications %}
+                <li class="list-group-item center li-body">
+                    <div class="toast-header notibody">
+                        <div style="display: flex;flex-direction: row;">
+                            <div class="notifier-img-container">
                                 <a href="/user/{{i.notifier.username}}">
-                                    <strong>{{i.notifier.username}}</strong>
+                                    <img src="{{i.notifier.profile.profile_pic.url}}" class="notifier-img"
+                                        style="object-fit: cover;background-position: center;border-radius: 50%;"
+                                        alt="...">
                                 </a>
-                                <span style="word-break :keep-all;">{{i.notification_message}}</span>
                             </div>
                             <div>
-                                <small class="text-muted ml-2 mr-2" style="font-size:0.8rem">{{i.display_time}}
-                                    ,{{i.display_date}}</small>
+                                <div class="message">
+                                    <a href="/user/{{i.notifier.username}}">
+                                        <strong>{{i.notifier.username}}</strong>
+                                    </a>
+                                    <span style="word-break :keep-all;">{{i.notification_message}}</span>
+                                </div>
+                                <div>
+                                    <small class="text-muted ml-2 mr-2" style="font-size:0.8rem">{{i.display_time}}
+                                        ,{{i.display_date}}</small>
+                                </div>
                             </div>
                         </div>
+                        {% if i.post.pic %}
+                        {% if i.post.isavideo %}
+                        <div class="notif-img-container">
+                            <a href="/user/{{i.notifier.username}}/{{i.post.id}}">
+                                <video class="notif-img" src="{{i.post.pic.url}}"></video>
+                            </a>
+                        </div>
+                        {% else %}
+                        <div class="notif-img-container">
+                            <a href="/user/{{i.notifier.username}}/{{i.post.id}}">
+                                <img class="notif-img" src="{{i.post.pic.url}}">
+                            </a>
+                        </div>
+                        {% endif %}
+                        {% endif %}
                     </div>
-                    {% if i.post.pic %}
-                    {% if i.post.isavideo %}
-                    <div class="post-img-container">
-                        <a href="/user/{{i.notifier.username}}/{{i.post.id}}">
-                            <video class="post-img" src="{{i.post.pic.url}}"></video>
-                        </a>
-                    </div>
-                    {% else %}
-                    <div class="post-img-container">
-                        <a href="/user/{{i.notifier.username}}/{{i.post.id}}">
-                            <img class="post-img" src="{{i.post.pic.url}}">
-                        </a>
-                    </div>
-                    {% endif %}
-                    {% endif %}
-                </div>
-            </li>
-            {% endfor %}
-        </ul>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
     </div>
+
 </div>
-
-
 <script>
     var cw = $('.post-div').width()
     var cw2 = cw + 20
-    console.log(cw)
     $('.post-div').css({ 'max-height': cw2 + 'px' })
     $('.post-img').css({ 'max-height': cw + 'px' })
     var xw = $('.post-div').width()
     var zw = $('.feed-box').width()
+
+    //$('.slide-container').css({ 'width': $('.feed-container').width() + 'px' })
+    var w1 = $('.slide-img-container').width()
+    //$('.slide-img-container').css({ 'height': w1 + 'px' })
+    var f1 = parseInt(w1) * 0.25
+    //$('.slide-img-container').css({'height':$('.slide-img-container').width()})
+    $('.first').css({ 'font-size': f1 + 'px' })
+    $('.second').css({ 'font-size': f1 + 'px' })
+    $('.slide-title').css({ 'font-size': f1 * 1.4 + 'px' })
 
 </script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>

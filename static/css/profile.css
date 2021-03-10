@@ -1,0 +1,215 @@
+.profile-container {
+    width: 95vmin;
+    min-height: 100vh;
+    border: 2px solid black;
+    background-color: white;
+}
+
+.line-first {
+    width: 100%;
+    padding: 5vmin;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-image: linear-gradient(to right, rgb(32, 32, 32), rgb(22, 22, 22) 80%);
+}
+.line-second{
+    width: 100%;
+    padding-top: 3vmin;
+    display: flex;
+    justify-content: center;
+}
+.line-third{
+    width: 100%;
+    padding-top: 2vmin;
+    padding-bottom: 2vmin;
+    display: flex;
+    justify-content: space-around;
+    font-size: large;
+}
+.line-fourth{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding-left: 5%;
+    padding-right: 5%;
+    padding-bottom: 20px;
+}
+.line-third span{
+    cursor: pointer;
+    transition: 0.3s ease;
+    font-weight: bold;
+}
+.profilepic-container {
+    width: 30vmin;
+    height: 30vmin;
+}
+
+.profilepic {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center center;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.profile-form {}
+
+.profile-form-input {
+    display: none;
+}
+
+.age-form {
+    display: none;
+    width: 40vmin;
+    background-color: transparent;
+    border: 0px;
+    border: 2px solid rgb(30, 30, 30);
+}
+
+.details {
+    height: 30vmin;
+    width: 50vmin;
+    width: fit-content;
+    display: flex;
+    flex-direction: column;
+}
+
+.dummy {
+    margin: auto;
+    width: 60%;
+    padding: 2vmin 5vmin 2vmin 5vmin;
+    background-color: white;
+    color: rgb(29, 29, 29);
+    border-radius: 7px;
+    border: 0px;
+}
+#dummyage{
+    margin-right: 40%;
+}
+#dummyname{
+    
+}
+#dummybio{
+    margin-left: 40%;
+}
+.profile-btn{
+    background-color: crimson;
+    color: white;
+    width: 75%;
+    height: 40px;
+    border: 0px;
+    border-radius: 10px;
+    transition: 0.3s ease;
+}
+.profile-btn:hover{
+    background-color: rgb(161, 7, 38);
+}
+.selected{
+    border-bottom: 2px solid crimson;
+}
+.followcontainer {
+    width: 100%;
+    display: flex;
+}
+
+.unfollowbtn{
+    background-color: rgb(29, 29, 29);
+    color: white;
+    border: 0px;
+    border-radius: 5px;
+    width: fit-content;
+    padding: 5px 10px 5px 10px;
+    transition: 0.2s ease;
+}
+.unfollowbtn:hover{
+    opacity: 0.8;
+}
+
+.removebtn{
+    background-color: rgb(29, 29, 29);
+    color: white;
+    border: 0px;
+    border-radius: 5px;
+    width: fit-content;
+    padding: 5px 10px 5px 10px;
+    transition: 0.2s ease;
+}
+.removebtn:hover{
+    opacity: 0.8;
+}
+
+.center {
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.noti-post-img-div {
+    position: absolute;
+    right: 10px;
+    width: fit-content;
+    height: fit-content;
+}
+
+.noti-post-img {
+    object-fit: cover;
+    width: 50px;
+    height: 50px;
+    background-position: center;
+}
+.notif-img-container{
+    width: 50px;
+    height: 50px;
+}
+.notif-img{
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    object-position: center center;
+}
+
+
+.notif-container {
+    display: flex;
+    width: 90vmin;
+    max-width: 500px;
+}
+
+
+
+.notibody {
+    width: 100%;
+    height: fit-content;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-left: 0px;
+    margin-right: 0px;
+    padding-left: 0px;
+    padding-right: 0px;
+    transition: 0.1s ease;
+}
+
+
+.message {
+    word-break: break-all;
+    padding-left: 2vmin;
+    padding-right: 2vmin;
+    font-size: 1rem;
+}
+
+.notifier-img-container {
+    width: 50px;
+    height: 50px;
+}
+
+.notifier-img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: center;
+}
+

@@ -127,9 +127,6 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/logout">Logout</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-                </li>
             </ul>
             <form class="d-flex" action="/home_search" method="POST">
                 {% csrf_token %}
@@ -203,7 +200,6 @@
             reader.addEventListener('load', function () {
                 var filetype = this.result.split(':')[1].split('/')[0]
                 if (filetype=='video') {
-                    console.log(filetype)
                     video_preview.style['display'] = 'block'
                     video_preview.setAttribute('src', this.result)
                 }

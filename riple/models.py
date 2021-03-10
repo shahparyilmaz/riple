@@ -16,7 +16,7 @@ class Friends(models.Model):
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    profile_pic=models.ImageField(null=False,blank=True,default="default_user.png")
+    profile_pic=models.ImageField(null=False,blank=True,default="files/defaultdp.jpg")
     age=models.IntegerField(null=True,blank=True,default=18)
     is_private=models.BooleanField(default=True,null=True,blank=True)
     def following(self):
@@ -82,7 +82,8 @@ def setisavideo(sender,instance,created,**kwargs):
     if created:
         value = instance.pic
         ext = os.path.splitext(value.name)[1]
-        if ext == '.mp4':
+        video_exts = ['.mp4','.mov']
+        if ext in video_exts:
             instance.isavideo=True
         else:
             instance.isavideo=False

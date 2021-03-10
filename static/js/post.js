@@ -20,7 +20,6 @@ $(document).ready(function(){
             },
             method:'POST',
             success:function(response){
-                console.log('adding comment')
                 $('#allComments').append(`<div class="comment-line"><div class="comment-img-container">
                     <img src="${response.commenter_pic}" alt=""></div><div class="usernameandcomment">
                     <div class="comment-user"><strong class="comment-username">${response.commenter}</strong><span class="comment-date">now</span></div>

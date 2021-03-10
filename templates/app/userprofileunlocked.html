@@ -3,6 +3,15 @@
 
 {% block content %}
 <style>
+    a {
+        text-decoration: none;
+        color: black;
+    }
+    a:hover:hover{
+        text-decoration: none;
+        color: black;
+    }
+
     .center {
         text-align: center;
     }
@@ -129,17 +138,21 @@
             <div class="bg-light p-4 d-flex justify-content-end text-center">
                 <ul class="list-inline mb-0">
                     <li class="list-inline-item">
-                        <h5 class="font-weight-bold mb-0 d-block">0</h5><small class="text-muted">
+                        <h5 class="font-weight-bold mb-0 d-block">{{postscount}}</h5><small class="text-muted">
                             Posts</small>
                     </li>
-                    <li class="list-inline-item">
-                        <h5 class="font-weight-bold mb-0 d-block">{{user.profile.followers_count}}</h5><small
-                            class="text-muted">Followers</small>
-                    </li>
-                    <li class="list-inline-item">
-                        <h5 class="font-weight-bold mb-0 d-block">{{user.profile.following_count}}</h5><small
-                            class="text-muted">Following</small>
-                    </li>
+                    <a href="/user/{{user.username}}/followers">
+                        <li class="list-inline-item">
+                            <h5 class="font-weight-bold mb-0 d-block">{{user.profile.followers_count}}</h5><small
+                                class="text-muted">Followers</small>
+                        </li>
+                    </a>
+                    <a href="/user/{{user.username}}/following">
+                        <li class="list-inline-item">
+                            <h5 class="font-weight-bold mb-0 d-block">{{user.profile.following_count}}</h5><small
+                                class="text-muted">Following</small>
+                        </li>
+                    </a>
                 </ul>
             </div>
             <!--
@@ -219,13 +232,12 @@
 
     $('#unfollow').click(function (e) {
         e.preventDefault();
-        console.log('unfollow')
         var userid = $(this).data('user_id');
         console.log(userid)
         var prev_url = $(this).data('prev_url');
         console.log(prev_url)
         $.ajax({
-            url: '/unfollow/'+userid,
+            url: '/unfollow/' + userid,
             data: {
                 path: prev_url
             },

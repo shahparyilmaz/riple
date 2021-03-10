@@ -37,19 +37,6 @@ a:hover {
     position: relative;
 }
 
-.noti-post-img-div {
-    position: absolute;
-    right: 10px;
-    width: fit-content;
-    height: fit-content;
-}
-
-.noti-post-img {
-    object-fit: cover;
-    width: 50px;
-    height: 50px;
-    background-position: center;
-}
 
 .feed-container {
     width: 95vmin;
@@ -69,6 +56,7 @@ a:hover {
     width: 95vmin;
     max-width: 500px;
     height: fit-content;
+    background-color: white;
 }
 
 
@@ -80,6 +68,7 @@ a:hover {
     align-items: center;
     top: 0;
     padding: 10px 20px;
+    background-color: white;
 }
 
 .feed-box-caption {
@@ -87,6 +76,7 @@ a:hover {
     padding: 20px 20px;
     display: flex;
     align-items: center;
+    background-color: white;
 }
 
 .feed-box-footer {
@@ -95,7 +85,7 @@ a:hover {
     padding-left: 20px;
     padding-right: 20px;
     padding-bottom: 10px;
-
+    background-color: white;
 }
 
 .post-user-img-div {

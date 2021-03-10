@@ -21,6 +21,21 @@ def test(request):
 def css(request):
     return render(request,'app/css.html')
 
+def generateRandomUser(user,allusers):
+    newuser=random.choice(allusers)
+    if newuser==user:
+        return generateRandomUser(user,allusers)
+    else:
+        return newuser
+def generateRandomUser2(user,user2,allusers):
+    newuser=random.choice(allusers)
+    if newuser==user or newuser==user2:
+        return generateRandomUser2(user,user2,allusers)
+    else:
+        return newuser
+
+
+
 @login_required(login_url='login')
 def home(request):
     user = request.user
@@ -28,14 +43,61 @@ def home(request):
     feed_list=FeedPost.objects.filter(users=user).order_by('-time')
     all_notifications=Notification.objects.filter(user=user).order_by('-time')
     follow_req_notifications=Notification.objects.filter(user=user,notification_type=4).order_by('time')
+    randomuser1=None
+    randomuser2=None
+    try:
+        allusers=[]
+        userfollowinglist=[]
+        for f in user.profile.following():
+            userfollowinglist.append(f.user)
+        for u in User.objects.all():
+            if u not in userfollowinglist:
+                allusers.append(u)
+        try:
+            allusers.remove(user)
+        except:
+            pass
+        randomuser1=random.choice(allusers)
+        randomuser2=generateRandomUser(randomuser1,allusers)
+    except:
+        pass
+
     context={
         'user':user,
         'all_notifications':all_notifications,
         'follow_req_notifications':follow_req_notifications,
         'feed_list':feed_list,
         'notifications':notifications,
+        'randomuser1':randomuser1,
+        'randomuser2':randomuser2,
     }
     return render(request,'app/home.html',context)
+
+def ajaxhome(request,username):
+    if request.method=='POST':
+        username2 = request.POST.get('username2')
+        user=request.user
+        userfollowinglist=[]
+        for f in user.profile.following():
+            userfollowinglist.append(f.user)
+        allusers=[]
+        for u in User.objects.all():
+            if u not in userfollowinglist:
+                allusers.append(u)
+        try:
+            allusers.remove(user)
+        except:
+            pass
+        prev_user=User.objects.get(username=username)
+        other_user=User.objects.get(username=username2)
+        randomuser=generateRandomUser2(prev_user,other_user,allusers)
+        randomuserpicurl=randomuser.profile.profile_pic.url
+        randomuserusername=randomuser.username
+        randomuserid=randomuser.id
+        return JsonResponse({'randomuserusername':randomuserusername,'randomuserpic':randomuserpicurl,'randomuserid':randomuserid},status=200)
+    else:
+        return JsonResponse({'error':'only get method'})
+
 
 @login_required(login_url='login')
 def home_search(request):
@@ -76,10 +138,11 @@ def user(request,username):
         'user':user,
         'allowed_users':allowed_users,
         'all_posts':user.post_set.all().order_by('-time'),
+        'postscount':user.post_set.all().count(),
         'requested':requested,
         'yourProfile':yourProfile
     }
-    if request.user in allowed_users:
+    if request.user in allowed_users or user==request.user:
         return render(request,'app/userprofileunlocked.html',context)
     else:
         return render(request,'app/userprofilelocked.html',context)
@@ -134,7 +197,6 @@ def add_comment(request,username,id):
         }
         return JsonResponse({'commenter':commenter,'comment':content,'commenter_pic':commenter_profile_url,'date':date,'time':time},status=200)
     else:
-        print('not post')
         return JsonResponse({'error':'only post method'})
 
 def like_unlike(request,username,id):
@@ -216,6 +278,16 @@ def logoutpage(request):
 @login_required(login_url='login')
 def profile(request):
     user=request.user
+    try:
+        followinglist=user.profile.following()
+    except:
+        followinglist=None
+    followingcount=followinglist.count()
+    try:
+        followerslist=user.profile.followers()
+    except:
+        followerslist=None
+    followerscount=followerslist.count()
     if request.method=='POST':
         form = ProfileForm(request.POST or None,request.FILES or None,instance=user.profile)
         if form.is_valid():
@@ -225,7 +297,11 @@ def profile(request):
             return redirect('home')
     form = ProfileForm(instance=user.profile)
     context={
-        'form':form
+        'form':form,
+        'followinglist':followinglist,
+        'followerslist':followerslist,
+        'followingcount':followingcount,
+        'followerscount':followerscount
     }
     return render(request,'app/profile.html',context)
 
@@ -270,8 +346,8 @@ def edit(request,id):
     return render(request,'app/post.html',context)
 
 @login_required(login_url='login')
-def following(request):
-    user = request.user
+def following(request,username):
+    user = User.objects.get(username=username)
     try:
         following_list=user.profile.following()
     except:
@@ -283,8 +359,8 @@ def following(request):
     return render(request,'app/following.html',context)
 
 @login_required(login_url='login')
-def followers(request):
-    user = request.user
+def followers(request,username):
+    user = User.objects.get(username=username)
     try:
         followers_list=user.profile.followers()
     except:
@@ -304,15 +380,27 @@ def delete(request):
 
 @login_required(login_url='login')
 def follow_req(request,id):
-    sender=request.user
-    receiver=User.objects.get(id=id)
-    notif=Notification(user=receiver,notifier=sender,notification_type=4)
-    notif.save()
-    path=request.GET.get('path')
-    if path=='/':
-        return redirect('home')
+    if request.method=='POST':
+        sender =request.user
+        receiver=User.objects.get(id=id)
+        try:
+            Notification.objects.filter(user=receiver,notifier=sender,notification_type=4).delete()          
+            notif=Notification(user=receiver,notifier=sender,notification_type=4)
+            notif.save()
+        except:
+            notif=Notification(user=receiver,notifier=sender,notification_type=4)
+            notif.save()
+        return JsonResponse({},status=200)
     else:
-        return redirect(f'{path}')
+        sender=request.user
+        receiver=User.objects.get(id=id)
+        notif=Notification(user=receiver,notifier=sender,notification_type=4)
+        notif.save()
+        path=request.GET.get('path')
+        if path=='/':
+            return redirect('home')
+        else:
+            return redirect(f'{path}')
         
 @login_required(login_url='login')
 def cancel_req(request,id):
@@ -356,25 +444,49 @@ def req_delete(request,id):
 
 @login_required(login_url='login')
 def follow(request,id):
-    user=User.objects.get(id=id)
-    follower=request.user
-    user.friends.followers.add(follower)
-    user.friends.save()
-    notif=Notification(user=user,notifier=follower,notification_type=3)
-    notif.save()
-    posts=Post.objects.filter(user=user)
-    for p in posts:
-        FeedPost.objects.get(post=p).users.add(request.user)
-    path=request.GET.get('path')
-    if path=='/':
-        return redirect('home')
+    if request.method=='POST':
+        follower=request.user
+        user=User.objects.get(id=id)
+        user.friends.followers.add(follower)
+        user.friends.save()
+        notif=Notification(user=user,notifier=follower,notification_type=3)
+        notif.save()
+        posts=Post.objects.filter(user=user)
+        for p in posts:
+            FeedPost.objects.get(post=p).users.add(request.user)
+        return JsonResponse({},status=200)
     else:
-        return redirect(f"{path}")
+        user=User.objects.get(id=id)
+        follower=request.user
+        user.friends.followers.add(follower)
+        user.friends.save()
+        notif=Notification(user=user,notifier=follower,notification_type=3)
+        notif.save()
+        posts=Post.objects.filter(user=user)
+        for p in posts:
+            FeedPost.objects.get(post=p).users.add(request.user)
+        path=request.GET.get('path')
+        if path=='/':
+            return redirect('home')
+        else:
+            return redirect(f"{path}")
 
 @login_required(login_url='login')
 def unfollow(request,id):
     user=User.objects.get(id=id)
     unfollower=request.user
+    if request.method=='POST':
+        try:
+            user.friends.followers.remove(unfollower)
+            user.friends.save()
+            Notification.objects.filter(user=user,notifier=unfollower,notification_type=3).delete()
+            posts=Post.objects.filter(user=user)
+            for p in posts:
+                FeedPost.objects.get(post=p).users.remove(request.user)
+        except:
+            pass
+        return JsonResponse({},status=200)
+
     user.friends.followers.remove(unfollower)
     user.friends.save()
     Notification.objects.filter(user=user,notifier=unfollower,notification_type=3).delete()
@@ -384,3 +496,19 @@ def unfollow(request,id):
     path=request.GET.get('path')
     return redirect(f"{path}")
  
+@login_required(login_url='login')
+def remove_follower(request,id):
+    user = request.user
+    follower = User.objects.get(id=id)
+    if request.method == 'POST':
+        try:
+            user.friends.followers.remove(follower)
+            Notification.objects.filter(user=user,notifier=follower,notification_type=3).delete()
+            posts=Post.objects.filter(user=user)
+            for p in posts:
+                FeedPost.objects.get(post=p).users.remove(follower)
+        except:
+            pass
+        return JsonResponse({},status=200)
+    else:
+        return HttpResponse()

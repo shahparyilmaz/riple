@@ -18,11 +18,22 @@
     height: 50px;
     background-position: center;
 }
+.notif-img-container{
+    width: 50px;
+    height: 50px;
+}
+.notif-img{
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    object-position: center center;
+}
 
 
 .notif-container {
     display: flex;
-    width: 500px;
+    width: 90vmin;
+    max-width: 500px;
 }
 
 .full-width {

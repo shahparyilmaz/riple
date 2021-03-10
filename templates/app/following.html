@@ -1,22 +1,168 @@
 {% extends 'base.html' %}
 {% load widget_tweaks %}
 {% block content %}
-    <div class="container mt-5" style="max-width: 500px;">
-        {% for msg in messages %}
-        {{msg}}
-        {% endfor %}
+{% load static %}
+
+
+<link rel="stylesheet" type="text/css" href="{% static 'css/home2.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'css/profile2.css' %}">
+
+
+<style>
+    .following-container {
+        width: 100vmin;
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        padding-left: 5%;
+        padding-right: 5%;
+        padding-top: 5vmin;
+    }
+
+    .outer-container {
+        width: 100%;
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        background-color: rgb(238, 238, 238);
+    }
+
+    .followbtn {
+        background-color: crimson;
+        color: white;
+        border: 0px;
+        border-radius: 5px;
+        width: fit-content;
+        padding: 5px 10px 5px 10px;
+        transition: 0.2s ease;
+    }
+
+    .followbtn:hover {
+        background-color: rgb(173, 6, 39);
+    }
+</style>
+
+<nav class="navbar navbar-expand-lg nav-color sticky" style="position: sticky;top: 0;z-index: 1;">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/user/{{user.username}}">
+            <img class="home-self-img" src="{{user.profile.profile_pic.url}}">
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="material-icons white" style="font-size: 40px;">list</span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="{% url 'home' %}">
+                        Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="{% url 'profile' %}">
+                        Profile</a>
+                </li>
+                <a class="nav-link active" aria-current="page" href="/notifications">
+                    Notifications</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        Requests
+                    </a>
+                    <ul class="dropdown-menu nav-color" aria-labelledby="navbarDropdown">
+                        {% if follow_req_notifications %}
+                        {% for n in follow_req_notifications %}
+                        <li class="dropdown-item" style="background-color: black;">
+                            <a href="/user/{{n.notifier.username}}">{{n.notifier.username}} requested to follow you</a>
+                            <a href="/req_accept/{{n.notifier.id}}?path={{request.path}}"><button
+                                    class="btn btn-light bg-light btn-sm">Accept</button></a>
+                            <a href="/req_delete/{{n.notifier.id}}?path={{request.path}}"><button
+                                    class="btn btn-danger btn-sm">Delete</button></a>
+                        </li>
+                        {% endfor %}
+                        {% else %}
+                        <li><a class="dropdown-item" href="#">No requests</a></li>
+                        {% endif %}
+                    </ul>
+                </li>
+                <li>
+                    <a class="nav-link active" aria-current="page" href="/post">
+                        New Post</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/logout">Logout</a>
+                </li>
+            </ul>
+            <form class="d-flex" action="/home_search" method="POST">
+                {% csrf_token %}
+                {% for msg in messages %}
+                <p style="color: white;">{{msg}}</p>
+                {% endfor %}
+                <input class="form-control me-2" type="search" name="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-light bg-light" type="submit">Search</button>
+            </form>
+        </div>
+    </div>
+</nav>
+
+
+<div class="outer-container">
+    <div class="following-container">
         {% if following_list %}
-        <ul class="list-group" style="border:1px solid black;">
+        <ul class="list-group followcontainer" id="followinglist">
             {% for f in following_list %}
-            <li class="list-group-item" style="background-color: rgb(238, 237, 237);">{{f.user.username}}</li>
+            <li class="list-group-item center li-body">
+                <div class="toast-header notibody">
+                    <div style="display: flex;flex-direction: row;">
+                        <div class="notifier-img-container">
+                            <a href="/user/{{f.user.username}}">
+                                <img src="{{f.user.profile.profile_pic.url}}" class="notifier-img"
+                                    style="object-fit: cover;background-position: center;border-radius: 50%;" alt="...">
+                            </a>
+                        </div>
+                        <div class="message" style="display: flex;flex-direction: column;word-break: break-all;">
+                            <a href="/user/{{f.user.username}}">
+                                <strong>{{f.user.username}}</strong>
+                            </a>
+                            <small class="text-muted mr-2" style="font-size:0.8rem">
+                                {% if f.user.name %}
+                                {{f.user.name}}
+                                {% else %}
+                                name
+                                {% endif %}
+                            </small>
+                        </div>
+                    </div>
+                    <button class="followbtn" data-userid="{{f.user.id}}">Follow</button>
+                </div>
+            </li>
             {% endfor %}
         </ul>
-        <br>
-        {% else %}<br>
-        <h4>You are not following anyone</h4>
+        {% else %}
+        No users in this list
         {% endif %}
-        <a href="{% url 'follow' %}"><button class="btn btn-warning">Follow</button></a>
-        <a href="{% url 'home' %}"><button class="btn btn-danger">Home</button></a>
     </div>
+</div>
 
+
+<script>
+
+var csrfToken = $("input[name=csrfmiddlewaretoken]").val();
+
+$('.followbtn').click(function(e){
+    e.preventDefault();
+    userid = $(this).data('userid')
+    var unfollowbtn=$(this)
+    $.ajax({
+        url:'/follow/'+userid,
+        data:{
+            csrfmiddlewaretoken : csrfToken,
+        },
+        method:'POST',
+        success:function(response){
+            unfollowbtn.text('Following')
+        }
+    })
+})
+</script>
 {% endblock %}
