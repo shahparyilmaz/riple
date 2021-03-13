@@ -17,8 +17,7 @@
 }
 .slide-container{
     padding-top: 5px;
-    width: 95vmin;
-    max-width: 500px;
+    width: 100%;
     position: relative;
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -55,11 +54,10 @@
         height: 50px;
     }
     .slide-container{
-        width: 100vmin;
         margin-top: 0px;
     }
     .outer-slide-container{
-        width: 100vmin;
+        width: 90vw;
         margin-top: 0px;
     }
     .slide-container-half{
@@ -76,7 +74,6 @@
 .details{
     word-break: normal;
     margin-left: 10px;
-    width: 100%;
 }
 .slide-buttons{
     width: 100%;
