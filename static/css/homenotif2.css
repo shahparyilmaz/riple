@@ -32,7 +32,8 @@
 
 .notif-container {
     display: flex;
-    width: 90vmin;
+    width: 95vmin;
+    max-width: 500px;
 }
 
 .full-width {

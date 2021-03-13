@@ -7,7 +7,6 @@
 }
 body{
     margin: 0;
-    background-color:rgb(238, 238, 238);
 }
 
 a {
@@ -23,6 +22,7 @@ a:hover {
 .outermost-container {
     width: 100%;
     height: fit-content;
+    min-height: 100vh;
     display: flex;
     align-items: stretch;
     flex-wrap: wrap;
@@ -101,6 +101,12 @@ a:hover {
     border-radius: 50%;
     object-fit: cover;
     background-position: center;
+}
+@media only screen and (max-width: 420px){
+    .post-user-img{
+        width: 15vmin;
+        height: 15vmin;
+    }
 }
 
 .username_time {

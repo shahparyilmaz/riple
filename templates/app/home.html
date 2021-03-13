@@ -2,39 +2,57 @@
 {% load static %}
 {% load widget_tweaks %}
 {% block content %}
-<link rel="stylesheet" type="text/css" href="static/css/homenotif.css">
-<link rel="stylesheet" type="text/css" href="static/css/home.css">
-<link rel="stylesheet" href="static/css/slide2.css">
+<link rel="stylesheet" type="text/css" href="/static/css/homee.css">
+<link rel="stylesheet" type="text/css" href="static/css/homenotif2.css">
+<link rel="stylesheet" href="static/css/slide.css">
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
 
 
 <style>
-
-    @media only screen and (max-width: 915px) {
+    @media only screen and (max-width: 1039px){
         .notif-container {
             display: none;
         }
-
         .outermost-container {
             flex-direction: column-reverse;
             justify-content: center;
             padding: 0px;
             margin: 0px;
-            background-color: transparent;
             align-content: center;
+            text-align: center;
         }
-
+        .feed-container{
+            width: 80vw;
+            max-width: 80vw;
+        }
+        .feed-box{
+            width: 80vw;
+            max-width: 80vw;   
+        }
+        .outer-slide-container{
+            width: 80vw;
+            max-width: 80vw;
+        }
+    }
+    @media only screen and (max-width: 500px) {
+        .outermost-container{
+            background-color: transparent;
+        }
         .feed-container {
-            width: 100vmin;
+            width: 100vw;
+            max-width: 100vw;
         }
 
         .feed-box {
-            width: 100vmin;
+            width: 100vw;
+            max-width: 100vw;
         }
 
         .outer-slide-container {
-            width: 100vmin;
+            width: 100vw;
+            max-width: 100vw;
+            padding: 1vw;
         }
 
         .feed-container {
@@ -243,10 +261,6 @@
                             </div>
                         </a>
                     </div>
-                    <div class="slide-buttons">
-                        <button id="followone" class="slidebtn followone">Follow</button>
-                        <button id="requestone" class="slidebtn requestone">Request</button>
-                    </div>
                 </div>
                 {% else %}
                 {% endif %}
@@ -270,12 +284,20 @@
                             </div>
                         </a>
                     </div>
-                    <div class="slide-buttons">
-                        <button id="followtwo" class="slidebtn followtwo">Follow</button>
-                        <button id="requesttwo" class="slidebtn requesttwo">Request</button>
-                    </div>
                 </div>
                 {% else %}
+                {% endif %}
+                {% if randomuser1 %}
+                <div class="slide-buttons">
+                    <button id="followone" class="slidebtn followone">Follow</button>
+                    <button id="requestone" class="slidebtn requestone">Request</button>
+                </div>
+                {% endif %}
+                {% if randomuser2 %}
+                <div class="slide-buttons">
+                    <button id="followtwo" class="slidebtn followtwo">Follow</button>
+                    <button id="requesttwo" class="slidebtn requesttwo">Request</button>
+                </div>
                 {% endif %}
                 <div class="next-buttons">
                     <i id="nextone" class="bi bi-x nexticon"></i>
@@ -352,6 +374,7 @@
     $('.first').css({ 'font-size': f1 + 'px' })
     $('.second').css({ 'font-size': f1 + 'px' })
     $('.slide-title').css({ 'font-size': f1 * 1.4 + 'px' })
+    $('.slide-buttons').css({ 'font-size': f1 + 'px' })
 
 </script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
