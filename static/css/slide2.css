@@ -1,5 +1,7 @@
 .outer-slide-container{
     height:fit-content;
+    width: 95vmin;
+    max-width: 500px;
     background-color: white;
     border: 0.01rem solid rgba(128, 128, 128, 0.3);
     border-radius: 4px;
@@ -15,7 +17,7 @@
 }
 .slide-container{
     padding-top: 5px;
-    width: 90vmin;
+    width: 95vmin;
     max-width: 500px;
     position: relative;
     display: grid;
@@ -27,6 +29,8 @@
 .slide-container-half{
     padding: 0px 20px 0px 20px;
     height: fit-content;
+    display: flex;
+    flex-direction: column;
 }
 .first{
     border-right: 0.01rem solid rgba(128, 128, 128, 0.3);
@@ -52,8 +56,14 @@
     }
     .slide-container{
         width: 100vmin;
+        margin-top: 0px;
     }
     .outer-slide-container{
+        width: 100vmin;
+        margin-top: 0px;
+    }
+    .slide-container-half{
+        padding: 0px 10px 0px 10px;
     }
 }
 .slide-img{
@@ -66,6 +76,7 @@
 .details{
     word-break: normal;
     margin-left: 10px;
+    width: 100%;
 }
 .slide-buttons{
     width: 100%;
@@ -73,9 +84,11 @@
     display: flex;
     flex-direction: row;
     justify-content: space-around;
+    align-self: flex-end;
 }
 .slidebtn{
     width: 45%;
+    min-width: fit-content;
     height: 30px;
     background-color: crimson;
     color: white;
