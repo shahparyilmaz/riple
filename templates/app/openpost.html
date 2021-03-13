@@ -268,7 +268,10 @@
     }
     .comment-username {}
 </style>
-<div id="dummy"></div>
+<nav class="nav-color nav-footer">
+    <a href="/"><i class="bi bi-house-door house-icon"></i></a>
+</nav>
+
 <div class="container">
     <div class="mycontainer">
         <div class="mainbox">
@@ -279,10 +282,11 @@
                     </div>
                     <div class="namesanddates">
                         <div class="names">
-                            <a href="/user/{{poster.username}}"><strong>Name</strong></a>
+                            <a href="/user/{{poster.username}}"><strong>{{poster.profile.name}}</strong></a>
                             <br>
                             <a href="/user/{{poster.username}}">{{poster.username}}</a>
                         </div>
+                        {% if yourpost %}
                         <div>
                             <a href="/delete/{{post.id}}">
                             <div id="delete" style="text-align: center;">
@@ -291,8 +295,9 @@
                                 Delete
                             </div>
                             </a>
-
                         </div>
+                        {% else %}
+                        {% endif %}
                         <div class="postdate" style="float: right;">
                             {{post.display_time}}
                             <br>

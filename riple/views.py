@@ -155,6 +155,10 @@ def userpost(request,username,id):
     no_comments=Comment.objects.filter(post=post).count()
     liked=False
     comments=None
+    if user==poster:
+        yourpost=True
+    else:
+        yourpost=False
     if Comment.objects.filter(post=post) is not None:
         comments=post.comment_set.all().order_by('-time')
     try:
@@ -170,6 +174,7 @@ def userpost(request,username,id):
         'liked':liked,
         'no_likes':no_likes,
         'no_comments':no_comments,
+        'yourpost':yourpost,
     }
     return render(request,'app/openpost.html',context)
 

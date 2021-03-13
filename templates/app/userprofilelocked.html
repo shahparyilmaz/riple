@@ -1,8 +1,44 @@
 {% extends 'base.html' %}
+{% load static %}
 {% load widget_tweaks %}
 
 {% block content %}
 <style>
+    .nav-footer {
+        height: 10vh;
+        position: fixed;
+        top: 90vh;
+        z-index: 3;
+        width: 100%;
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding-bottom: 2.5vh;
+        overflow: hidden;
+    }
+
+    .house-icon {
+        color: white;
+        font-size: 7vh;
+    }
+
+    .body-container {
+        width: 100%;
+        height: fit-content;
+        padding-bottom: 10vh;
+    }
+
+    @media only screen and (max-width: 915px) {
+        .nav-footer {
+            padding-bottom: 2vh;
+        }
+
+        .house-icon {
+            font-size: 5vh;
+        }
+    }
+
     .center {
         text-align: center;
     }
@@ -51,6 +87,10 @@
         font-size: 1.7rem;
     }
 
+    .name {
+        font-size: 1.3rem;
+    }
+
     @media only screen and (max-width: 460px) {
         .mybtn {
             font-size: 3.5vmin;
@@ -58,6 +98,10 @@
 
         .username {
             font-size: 5vmin;
+        }
+
+        .name {
+            font-size: 4vmin;
         }
     }
 
@@ -73,50 +117,103 @@
         align-items: center;
         justify-content: space-between;
     }
+
+    .dpandnames {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    }
+
+    .bio-mob {
+        padding: 2vmin 5vmin 1vmin 5vmin;
+        display: none;
+        font-family: 'Noto Sans JP', sans-serif;
+        word-break: initial;
+    }
+
+    .bio-web {
+        display: flex;
+        word-break: initial;
+        width: 50%;
+        font-family: 'Noto Sans JP', sans-serif;
+        padding-left: 2%;
+        text-align: left;
+    }
+
+    .bioandbtns {
+        justify-content: space-between;
+    }
+
+    @media only screen and (max-width: 930px) {
+        .buttons {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .bio-mob {
+            display: flex;
+        }
+
+        .bio-web {
+            display: none;
+        }
+
+        .bioandbtns {
+            justify-content: end;
+        }
+    }
 </style>
+
+<nav class="nav-color nav-footer">
+    <a href="/"><i class="bi bi-house-door house-icon"></i></a>
+</nav>
+
 <div class="row py-0 px-4">
     <div class="col-md-7 mx-auto" style="padding: 0px;">
         <!-- Profile widget -->
         <div class="bg-white shadow rounded overflow-hidden">
             <div class="px-4 pt-4 pb-4 header">
-                <div class="dp-container">
-                    <img class="dp" src="{{user.profile.profile_pic.url}}" alt="..." id="border">
+                <div class="dpandnames">
+                    <div class="dp-container">
+                        <img class="dp" src="{{user.profile.profile_pic.url}}" alt="..." id="border">
+                    </div>
+                    <div class="media-body text-white ml-3">
+                        <h3 class="username">{{user.username}}</h3>
+                        <h3 class="name">{{user.profile.name}}</h3>
+                    </div>
                 </div>
-                <div>
-                    <div class="media-body text-white">
-                        <h3 class="username">{{user.username.capitalize}}</h4>
-                    </div>
-                    <div class="buttons">
-                        <div>
-                            <a href="/follow/{{user.id}}?path={{request.path}}"
-                                class="btn btn-outline-dark mybtn">Follow</a>
-                            {% if requested %}
-                            <a href="/cancel_req/{{user.id}}?path={{request.path}}"
-                                class="btn btn-outline-dark mybtn">Cancel</a>
-                            {% else %}
-                            <a href="/follow_req/{{user.id}}?path={{request.path}}"
-                                class="btn btn-outline-dark mybtn">Request</a>
-                            {% endif %}
-                        </div>
-                    </div>
+                <div class="buttons">
+                    <a href="/follow/{{user.id}}?path={{request.path}}" class="btn btn-outline-dark mybtn">Follow</a>
+                    {% if requested %}
+                    <a href="/cancel_req/{{user.id}}?path={{request.path}}"
+                        class="btn btn-outline-dark mybtn">Cancel</a>
+                    {% else %}
+                    <a href="/follow_req/{{user.id}}?path={{request.path}}"
+                        class="btn btn-outline-dark mybtn">Request</a>
+                    {% endif %}
                 </div>
 
             </div>
         </div>
-        <div class="bg-light p-4 d-flex justify-content-end text-center">
-            <ul class="list-inline mb-0">
-                <li class="list-inline-item">
-                    <h5 class="font-weight-bold mb-0 d-block">{{postscount}}</h5><small class="text-muted">Posts</small>
-                </li>
-                <li class="list-inline-item">
-                    <h5 class="font-weight-bold mb-0 d-block">{{user.profile.followers_count}}</h5><small
-                        class="text-muted">Followers</small>
-                </li>
-                <li class="list-inline-item">
-                    <h5 class="font-weight-bold mb-0 d-block">{{user.profile.following_count}}</h5><small
-                        class="text-muted">Following</small>
-                </li>
-            </ul>
+        <div class="bio-mob">{{user.profile.bio}}</div>
+        <div class="bg-light p-4 d-flex text-center bioandbtns">
+            <div class="bio-web">{{user.profile.bio}}</div>
+            <div>
+                <ul class="list-inline mb-0">
+                    <li class="list-inline-item">
+                        <h5 class="font-weight-bold mb-0 d-block">{{postscount}}</h5><small
+                            class="text-muted">Posts</small>
+                    </li>
+                    <li class="list-inline-item">
+                        <h5 class="font-weight-bold mb-0 d-block">{{user.profile.followers_count}}</h5><small
+                            class="text-muted">Followers</small>
+                    </li>
+                    <li class="list-inline-item">
+                        <h5 class="font-weight-bold mb-0 d-block">{{user.profile.following_count}}</h5><small
+                            class="text-muted">Following</small>
+                    </li>
+                </ul>
+            </div>
         </div>
         <!--
         <div class="px-4 py-3">

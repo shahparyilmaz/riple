@@ -4,7 +4,7 @@
 {% load static %}
 
 <link rel="stylesheet" type="text/css" href="{% static 'css/home2.css' %}">
-<link rel="stylesheet" type="text/css" href="{% static 'css/profile2.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'css/profile.css' %}">
 
 
 
@@ -73,7 +73,9 @@
         </div>
     </div>
 </nav>
-
+<nav class="nav-color nav-footer">
+    <a href="/"><i class="bi bi-house-door house-icon"></i></a>
+</nav>
 
 <div class="outermost-container">
     
@@ -91,11 +93,13 @@
                 <div class="details">
                     <input type="text" class="dummy" id="dummyage" placeholder="Age" value="{{user.profile.age}}">
                     <br>
-                    <input type="text" class="dummy" id="dummyname" placeholder="Name" value="{{user.username}}">
+                    <input type="text" class="dummy" id="dummyname" placeholder="Name" value="{{user.profile.name}}">
                     <br>
-                    <input type="text" class="dummy" id="dummybio" placeholder="Bio" value="">
+                    <input type="text" class="dummy" id="dummybio" placeholder="Bio" value="{{user.profile.bio}}">
                 </div>
-                {{form.age|add_class:'form-control age-form'}}
+                {{form.age|add_class:'form-control my-form'}}
+                {{form.name|add_class:'form-control my-form'}}
+                {{form.bio|add_class:'form-control my-form'}}
         
     </div>
     <div class="line-second">
@@ -169,6 +173,14 @@
     document.getElementById('dummyage').addEventListener('change', function () {
         var age = this.value
         document.getElementById('id_age').value = age;
+    })
+    document.getElementById('dummyname').addEventListener('change', function () {
+        var name = this.value
+        document.getElementById('id_name').value = name;
+    })
+    document.getElementById('dummybio').addEventListener('change', function () {
+        var bio = this.value
+        document.getElementById('id_bio').value = bio;
     })
 
     var dp = document.querySelector('#profilepic')

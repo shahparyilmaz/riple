@@ -1,8 +1,8 @@
 .profile-container {
     width: 95vmin;
     min-height: 100vh;
-    border: 2px solid black;
     background-color: white;
+    box-shadow: 5px 10px 10px 5px #4d4d4d;
 }
 
 .line-first {
@@ -11,7 +11,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-image: linear-gradient(to right, rgb(32, 32, 32), rgb(22, 22, 22) 80%);
+    background-image: linear-gradient(to top, rgb(32, 32, 32), rgb(22, 22, 22) 80%);
 }
 .line-second{
     width: 100%;
@@ -60,7 +60,7 @@
     display: none;
 }
 
-.age-form {
+.my-form {
     display: none;
     width: 40vmin;
     background-color: transparent;
@@ -213,3 +213,8 @@
     object-position: center;
 }
 
+@media only screen and (max-width: 915px) {
+    .dummy{
+        padding:2px 8px 2px 8px;
+    }
+}

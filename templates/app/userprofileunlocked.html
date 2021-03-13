@@ -1,13 +1,16 @@
 {% extends 'base.html' %}
+{% load static %}
 {% load widget_tweaks %}
 
 {% block content %}
+
 <style>
     a {
         text-decoration: none;
         color: black;
     }
-    a:hover:hover{
+
+    a:hover:hover {
         text-decoration: none;
         color: black;
     }
@@ -61,6 +64,10 @@
         font-size: 1.7rem;
     }
 
+    .name {
+        font-size: 1.3rem;
+    }
+
     @media only screen and (max-width: 460px) {
         .mybtn {
             font-size: 3.5vmin;
@@ -68,6 +75,10 @@
 
         .username {
             font-size: 5vmin;
+        }
+
+        .name {
+            font-size: 4vmin;
         }
     }
 
@@ -108,34 +119,82 @@
         opacity: 0.7;
         z-index: 1;
     }
+
+    .dpandnames {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    }
+    .bio-mob{
+        padding: 2vmin 5vmin 1vmin 5vmin;
+        display: none;
+        font-family: 'Noto Sans JP', sans-serif;
+        word-break: initial;
+    }
+    .bio-web{
+        display: flex;
+        word-break: initial;
+        width: 50%;
+        font-family: 'Noto Sans JP', sans-serif;
+        padding-left: 2%;
+        text-align: left;
+    }
+    .bioandbtns{
+        justify-content: space-between;
+    }
+
+    @media only screen and (max-width: 930px) {
+        .buttons {
+            display: flex;
+            flex-direction: column;
+        }
+        .bio-mob{
+            display: flex;
+        }
+        .bio-web{
+            display: none;
+        }
+        .bioandbtns{
+            justify-content: end;
+        }
+    }
 </style>
+
+<nav class="nav-color nav-footer">
+    <a href="/"><i class="bi bi-house-door house-icon"></i></a>
+</nav>
+
 <div class="row py-0 px-4">
     <div class="col-md-7 mx-auto" style="padding: 0px;">
         <!-- Profile widget -->
         <div class="bg-white shadow rounded overflow-hidden">
             <div class="px-4 pt-4 pb-4 header">
-                <div class="dp-container">
-                    <img class="dp" src="{{user.profile.profile_pic.url}}" alt="..." id="border">
+                <div class="dpandnames">
+                    <div class="dp-container">
+                        <img class="dp" src="{{user.profile.profile_pic.url}}" alt="..." id="border">
+                    </div>
+                    <div class="media-body text-white ml-3">
+                        <h3 class="username">{{user.username}}</h3>
+                        <h3 class="name">{{user.profile.name}}</h3>
+                    </div>
                 </div>
-                <div>
-                    <div class="media-body text-white">
-                        <h3 class="username">{{user.username.capitalize}}</h4>
-                    </div>
-                    <div class="buttons">
-                        {% if yourProfile %}
-                        <a href="/profile/" class="btn btn-outline-dark mybtn"><span>Profile</span></a>
+                <div class="buttons">
+                    {% if yourProfile %}
+                    <a href="/profile/" class="btn btn-outline-dark mybtn"><span>Profile</span></a>
 
-                        {% else %}
-                        <div>
-                            <a href="/unfollow/{{user.id}}?path={{request.path}}"
-                                class="btn btn-outline-dark mybtn">Unfollow</a>
-                            <a href="#" class="btn btn-outline-dark mybtn"><span>Message</span></a>
-                        </div>
-                        {% endif %}
+                    {% else %}
+                    <div class="buttons">
+                        <a href="/unfollow/{{user.id}}?path={{request.path}}"
+                            class="btn btn-outline-dark mybtn">Unfollow</a>
+                        <a href="#" class="btn btn-outline-dark mybtn"><span>Message</span></a>
                     </div>
+                    {% endif %}
                 </div>
             </div>
-            <div class="bg-light p-4 d-flex justify-content-end text-center">
+            <div class="bio-mob">{{user.profile.bio}}</div>
+            <div class="bg-light p-4 d-flex text-center bioandbtns">
+                <div class="bio-web">{{user.profile.bio}}</div>
+                <div>
                 <ul class="list-inline mb-0">
                     <li class="list-inline-item">
                         <h5 class="font-weight-bold mb-0 d-block">{{postscount}}</h5><small class="text-muted">
@@ -154,6 +213,7 @@
                         </li>
                     </a>
                 </ul>
+                </div>
             </div>
             <!--
             <div class="px-4 py-3">

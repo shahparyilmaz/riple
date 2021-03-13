@@ -1,0 +1,27 @@
+
+<div class="container bg-white" style="max-width:500px;">
+    <div>
+        <h1>Profile</h1>
+
+        <form method='POST' action="" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="{{form.age.id_for_label}}">Age</label>
+                {{form.age|add_class:'form-control'}}
+            </div>
+            <div class="mb-3">
+                <label for="{{form.profile_pic.id_for_label}}">Profile Pic</label>
+                <br>
+                {{form.profile_pic|add_class:'form-control'}}
+                <a href="/profile/delete"><button type="button" class="btn btn-danger btn-sm">Delete</button></a>
+            </div>
+
+            <br>
+            <input type="submit" class="btn btn-primary btn-lg" value="save">
+        </form>
+    </div>
+    <br>
+
+
+</div>
+

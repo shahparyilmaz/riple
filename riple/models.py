@@ -18,6 +18,8 @@ class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     profile_pic=models.ImageField(null=False,blank=True,default="files/defaultdp.jpg")
     age=models.IntegerField(null=True,blank=True,default=18)
+    name=models.CharField(null=True,blank=True,default="",max_length=30)
+    bio=models.CharField(null=True,blank=True,default="",max_length=200)
     is_private=models.BooleanField(default=True,null=True,blank=True)
     def following(self):
         return Friends.objects.filter(followers=self.user)
@@ -32,7 +34,12 @@ class Profile(models.Model):
 
     def __str__(self):
         return self.user.username
-    
+    @property
+    def display_bio(self):
+        if self.bio != "":
+            return self.bio[0:20]+'...'
+        else:
+            return ""
 
 def create_profile(sender,instance,created,**kwargs):
     if created:

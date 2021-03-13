@@ -17,7 +17,7 @@ class LogInForm(UserCreationForm):
 class ProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
-        fields = ['age','profile_pic']
+        fields = ['age','profile_pic','name','bio']
 
 class PostForm(forms.ModelForm):
     class Meta:

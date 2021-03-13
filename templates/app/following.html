@@ -104,7 +104,9 @@
         </div>
     </div>
 </nav>
-
+<nav class="nav-color nav-footer">
+    <a href="/"><i class="bi bi-house-door house-icon"></i></a>
+</nav>
 
 <div class="outer-container">
     <div class="following-container">
@@ -125,11 +127,7 @@
                                 <strong>{{f.user.username}}</strong>
                             </a>
                             <small class="text-muted mr-2" style="font-size:0.8rem">
-                                {% if f.user.name %}
-                                {{f.user.name}}
-                                {% else %}
-                                name
-                                {% endif %}
+                                {{f.user.profile.name}}
                             </small>
                         </div>
                     </div>

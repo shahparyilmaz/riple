@@ -213,3 +213,8 @@
     object-position: center;
 }
 
+@media only screen and (max-width: 915px) {
+    .dummy{
+        padding:0px;
+    }
+}

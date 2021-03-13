@@ -53,6 +53,8 @@
     .slide-container{
         width: 100vmin;
     }
+    .outer-slide-container{
+    }
 }
 .slide-img{
     height: 100%;

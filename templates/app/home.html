@@ -4,12 +4,13 @@
 {% block content %}
 <link rel="stylesheet" type="text/css" href="static/css/homenotif.css">
 <link rel="stylesheet" type="text/css" href="static/css/home.css">
-<link rel="stylesheet" href="static/css/slide2.css">
+<link rel="stylesheet" href="static/css/slide.css">
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
 
 
 <style>
+
     @media only screen and (max-width: 915px) {
         .notif-container {
             display: none;
@@ -18,23 +19,34 @@
         .outermost-container {
             flex-direction: column-reverse;
             justify-content: center;
-            padding: 0;
-            margin: 0;
+            padding: 0px;
+            margin: 0px;
+            background-color: transparent;
         }
 
         .feed-container {
             width: 100vmin;
         }
-
         .feed-box {
             width: 100vmin;
         }
+        .outermost-container{
+            margin-top: 0px;
+            padding-top: 0px;
+        }
+        .feed-container{
+            border: 0px;
+        }
+        .nofeed{
+            height: 50vh;
+        }
     }
+
 </style>
 <!--Profile box-->
 <!--Navbar-->
 
-<nav class="navbar navbar-expand-lg nav-color sticky" style="position: sticky;top: 0;z-index: 2;">
+<nav class="navbar navbar-expand-lg nav-color" style="position: sticky;top: 0;z-index: 2;">
     <div class="container-fluid">
         <a class="navbar-brand" href="/user/{{user.username}}">
             <img class="home-self-img" src="{{user.profile.profile_pic.url}}">
@@ -96,12 +108,18 @@
         </div>
     </div>
 </nav>
+<nav class="nav-color nav-footer">
+    <a href="/"><i class="bi bi-house-door house-icon"></i></a>
+</nav>
+<!--footer-->
+
 
 <!--Navbar end-->
 
 
 <div class="outermost-container">
     <div class="feed-container">
+        {% if feed_list %}
         <div>
             {% for feed in feed_list %}
             <div class="feed-box">
@@ -182,10 +200,20 @@
             </div>
             {% endfor %}
         </div>
+        
+        {% else %}
+        <div class="nofeed">
+            <div>
+            <span style="font-size: 1.3rem;">Start following people</span>
+            <br>
+            <span><i class="bi bi-emoji-smile" style="font-size: 4rem;"></i></span>
+            </div>
+        </div>
+        {% endif %}
     </div>
     <!--Feed Ends-->
 
-    <div>
+    <div style="margin-top: 0px;">
         <div class="outer-slide-container">
             <div class="slide-title"><i>Suggestions for you</i></div>
             <div class="slide-container">
@@ -198,11 +226,15 @@
                                 <img class="slide-img" src="{{randomuser1.profile.profile_pic.url}}" alt="">
                             </div>
                             <div class="details">
-                                <strong>First User</strong>
+                                <strong>{{randomuser1.profile.name}}</strong>
                                 <br>
                                 <span id="slide1username" data-userid="{{randomuser1.id}}">{{randomuser1.username}}</span>
+                                {% if randomuser1.profile.bio %}
                                 <br>
-                                <i>Bio</i>
+                                <i>{{randomuser1.profile.display_bio}}</i>
+                                {% else %}
+                                <br>
+                                {% endif %}
                             </div>
                         </div>
                     </a>
@@ -224,11 +256,11 @@
                                 <img class="slide-img" src="{{randomuser2.profile.profile_pic.url}}" alt="">
                             </div>
                             <div class="details">
-                                <strong>First User</strong>
+                                <strong>{{randomuser2.profile.name}}</strong>
                                 <br>
                                 <span id="slide2username" data-userid="{{randomuser2.id}}">{{randomuser2.username}}</span>
                                 <br>
-                                <i>Bio</i>
+                                <i>{{randomuser2.profile.display_bio}}</i>
                             </div>
                         </div>
                     </a>
