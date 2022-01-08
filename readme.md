@@ -3,7 +3,7 @@
 ## Features
 ### Feed, Like, Comment
 
-<img src="https://user-images.githubusercontent.com/78541121/148658114-548b16d3-387c-470a-a0db-0fbfecada028.gif" />
+<img src="https://user-images.githubusercontent.com/78541121/148658114-548b16d3-387c-470a-a0db-0fbfecada028.gif" width="100%" />
 
 ### Profile
 
