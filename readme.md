@@ -8,19 +8,19 @@
 
 ### Profile
 
-<img src="https://user-images.githubusercontent.com/78541121/148658160-aa957adf-7c57-4e71-bf33-4ec9e3e0ef4a.gif" />
+<img src="https://user-images.githubusercontent.com/78541121/148658879-a2d35b29-3b16-47bd-b599-c51bcc90061f.gif" />
 
 ### New Post
 
-<img src="https://user-images.githubusercontent.com/78541121/148658169-f20bd0ac-db93-4c69-9630-cd52478dc091.gif" />
+<img src="https://user-images.githubusercontent.com/78541121/148658864-3e09a901-34c0-4255-84a6-b07aae3a583a.gif" />
 
 ### Suggestions
 
-<img src="https://user-images.githubusercontent.com/78541121/148658184-37b4b048-50a9-4b2e-af65-b59814bc7d9b.gif" />
+<img src="https://user-images.githubusercontent.com/78541121/148658891-72292a3b-ec77-445b-8e79-9b71d8a761ad.gif" />
 
 ### Notifications
 
-<img src="https://user-images.githubusercontent.com/78541121/148658187-c5aace10-7c8d-4a46-a21e-a5075f7a98a4.gif" />
+<img src="https://user-images.githubusercontent.com/78541121/148658901-36459354-2600-4961-b4a4-5354980d3c68.gif" />
 
 ## Technologies Used
 ### Front-end
